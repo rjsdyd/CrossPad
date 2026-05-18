@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3310/crosspad_db?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ${DB_PASSWORD:1234}
+
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+
+  properties:
+       hibernate:
+        show_sql: true
+        format_sql: true
+
+twitch:
+  client-id: ${TWITCH_CLIENT_ID}
+  client-secret: ${TWITCH_CLIENT_SECRET}

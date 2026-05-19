@@ -1,0 +1,126 @@
+.feed-container {
+  padding: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.feed-title {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.text-nintendo { color: var(--nintendo-color); }
+.text-playstation { color: var(--ps-color); }
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.game-card {
+  background-color: var(--card-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+}
+
+.game-image-wrapper {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-image-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0);
+  transition: background-color 0.3s;
+  z-index: 10;
+}
+
+.game-card:hover .game-image-overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.game-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-info {
+  padding: 12px;
+}
+
+.game-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.platform-badge {
+  font-size: 10px;
+  font-weight: 900;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+
+.badge-nintendo {
+  background-color: rgba(255, 22, 38, 0.2);
+  color: var(--nintendo-color);
+}
+
+.badge-playstation {
+  background-color: rgba(0, 114, 255, 0.2);
+  color: var(--ps-color);
+}
+
+.game-rating {
+  font-size: 12px;
+  font-weight: bold;
+  color: #F5C518;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .feed-container { padding: 24px; }
+  .feed-title { font-size: 30px; gap: 16px; margin-bottom: 32px; }
+  .game-grid { gap: 24px; }
+  .game-info { padding: 20px; }
+  .game-title { font-size: 18px; }
+  .platform-badge { font-size: 12px; padding: 4px 10px; }
+  .game-rating { font-size: 14px; }
+}
+
+@media (min-width: 1024px) {
+  .game-grid { grid-template-columns: repeat(4, 1fr); }
+  .feed-title { font-size: 48px; }
+  .feed-container { padding: 40px; }
+}
+@media (min-width: 1280px) {
+  .game-grid { grid-template-columns: repeat(5, 1fr); }
+}

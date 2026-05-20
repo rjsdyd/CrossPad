@@ -14,7 +14,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<String> signup(@RequestBody com.crosspad.backend.domain.member.dto.SignupRequestDto requestDto) {
+        // 💡 memberService.signup이 원하는 정확한 DTO 경로를 명시해 줍니다.
         String resultMessage = memberService.signup(requestDto);
         return ResponseEntity.ok(resultMessage);
     }

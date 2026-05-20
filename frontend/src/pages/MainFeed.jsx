@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import GameDetail from './GameDetail'
 import './MainFeed.css'
 
 function MainFeed({ activeTab }) {
   const [games, setGames] = useState([])
+  const [selectedGameId, setSelectedGameId] = useState(null)
 
   useEffect(() => {
+    // 탭(플랫폼)이 변경되면 선택된 게임 상태를 초기화하여 목록 화면으로 돌아옵니다.
+    setSelectedGameId(null)
+
     axios.get(`http://localhost:8080/api/games?platform=${activeTab}`)
       .then(response => setGames(response.data))
       .catch(error => console.error("데이터 가져오기 실패:", error))
   }, [activeTab])
+
+  if (selectedGameId) {
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />
+  }
 
   return (
     <div className="feed-container">
@@ -24,7 +33,7 @@ function MainFeed({ activeTab }) {
 
       <div className="game-grid">
         {games.map((game) => (
-          <div key={game.id} className="game-card">
+          <div key={game.id} className="game-card" onClick={() => setSelectedGameId(game.id)} style={{ cursor: 'pointer' }}>
             
             <div className="game-image-wrapper">
               <div className="game-image-overlay"></div>

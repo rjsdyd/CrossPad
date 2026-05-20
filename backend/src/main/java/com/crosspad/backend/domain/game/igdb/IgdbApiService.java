@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -38,13 +39,30 @@ public class IgdbApiService {
         headers.set("Authorization", "Bearer " + token);
         headers.set("Accept", "application/json");
 
-        // 💡 [수정 1] fields 맨 끝에 platforms 항목을 추가했습니다.
-        String query = "fields id, name, summary, rating, cover.url, platforms; " +
-                "where platforms = (130, 167) & rating >= 80; " +
+        // 💡 닌텐도 스위치(130) 최고 명작 300개 쿼리문
+        String nintendoBody = "fields name, summary, cover.url, rating, platforms, videos.video_id, screenshots.url; " +
+                "where platforms = 130 & rating != null & cover.url != null; " +
                 "sort rating desc; " +
-                "limit 50;";
+                "limit 300;"; //
 
-        HttpEntity<String> entity = new HttpEntity<>(query, headers);
+        // 💡 플레이스테이션 4 & 5(48, 167) 최고 명작 300개 쿼리문
+        String playstationBody = "fields name, summary, cover.url, rating, platforms, videos.video_id, screenshots.url; " +
+                "where platforms = (48, 167) & rating != null & cover.url != null; " +
+                "sort rating desc; " +
+                "limit 300;"; //
+
+        // 🚀 1. 닌텐도 스위치 300개 독립 수집 시작
+        log.info("... [IGDB 수집] 닌텐도 스위치 최고 명작 300개 캐싱을 시작합니다...");
+        fetchAndSave(url, nintendoBody, headers, "NINTENDO");
+
+        // 🚀 2. 플레이스테이션 300개 독립 수집 시작
+        log.info("... [IGDB 수집] 플레이스테이션 최고 명작 300개 캐싱을 시작합니다...");
+        fetchAndSave(url, playstationBody, headers, "PLAYSTATION");
+    }
+
+    // 💡 [공통 비즈니스 로직 수집기] 플랫폼별로 데이터를 받아와 가공한 뒤 번역기를 통과시킵니다.
+    private void fetchAndSave(String url, String body, HttpHeaders headers, String currentPlatform) {
+        HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
         try {
             ResponseEntity<List<IgdbGameDto>> response = restTemplate.exchange(
@@ -59,34 +77,48 @@ public class IgdbApiService {
 
             int savedCount = 0;
             for (IgdbGameDto dto : dtoList) {
+                // 이미 DB에 존재하는 게임 ID라면 중복 수집 생략 패스
                 if (gameRepository.existsByIgdbGameId(dto.getId())) {
                     continue;
                 }
 
                 String coverUrl = (dto.getCover() != null) ? "https:" + dto.getCover().getUrl() : null;
 
-                String platform = "PLAYSTATION";
-                if (dto.getPlatforms() != null && dto.getPlatforms().contains(130)) {
-                    platform = "NINTENDO";
+                // 1. 유튜브 비디오 ID 안전 추출
+                String videoId = null;
+                if (dto.getVideos() != null && !dto.getVideos().isEmpty()) {
+                    videoId = dto.getVideos().get(0).getVideo_id();
                 }
 
+                // 2. 스크린샷 URL 리스트 안전 추출
+                List<String> screenshotUrls = new ArrayList<>();
+                if (dto.getScreenshots() != null) {
+                    for (IgdbGameDto.Screenshot scr : dto.getScreenshots()) {
+                        if (scr.getUrl() != null) {
+                            screenshotUrls.add("https:" + scr.getUrl());
+                        }
+                    }
+                }
+
+                // 3. 엔티티 빌딩 및 가공된 한글 줄거리 주입
                 Game game = Game.builder()
                         .igdbGameId(dto.getId())
-                        .title(dto.getName())
-                        .summary(dto.getSummary())
+                        .title(dto.getName()) // 타이틀 제목은 게이머 감성을 위해 영어 원문 유지
                         .coverUrl(coverUrl)
                         .rating(dto.getRating())
-                        .platform(platform) // 동적으로 구한 값 주입!
+                        .platform(currentPlatform)
+                        .videoId(videoId)
+                        .screenshots(screenshotUrls)
                         .build();
 
                 gameRepository.save(game);
                 savedCount++;
             }
 
-            log.info("🎯 [DB 캐싱 완료] 총 {}개의 새로운 명작 게임이 플랫폼 분류되어 MariaDB에 안전하게 저장되었습니다!", savedCount);
+            log.info("🎯 [{}] 수집완료! 새롭게 밀어 넣은 명작 개수: {}개", currentPlatform, savedCount);
 
         } catch (Exception e) {
-            log.error("❌ 게임 데이터 DB 캐싱 실패: {}", e.getMessage(), e);
+            log.error("❌ [{}] 데이터 파싱 및 캐싱 중 크리티컬 에러 발생: ", currentPlatform, e);
         }
     }
 }

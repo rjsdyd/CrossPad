@@ -26,4 +26,19 @@ public class Member {
 
     @Column(nullable = false, length = 20)
     private String role;
+
+    public void promoteToAdmin() {
+        this.role = "ROLE_ADMIN";
+    }
+
+    public void demoteToUser() {
+        this.role = "ROLE_USER";
+    }
+
+    public Member(String email, String password, String nickname, String role) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.role = role;
+    }
 }

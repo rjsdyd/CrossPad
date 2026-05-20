@@ -1,6 +1,7 @@
 package com.crosspad.backend.domain.game;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,5 +28,17 @@ public class GameController {
         }
 
         return gameRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getGameDetail(@PathVariable Long id) {
+        try {
+            // gameRepository에서 id로 찾고, 없으면 에러 던지기
+            Game game = gameRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
+            return ResponseEntity.ok(game);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -15,11 +15,11 @@ function Login({ setActiveTab, onLoginSuccess }) { // 💡 로그인 성공 핸�
       password
     })
     .then(response => {
-      alert(`${response.data.nickname}님, 로그인 성공!`)
-      onLoginSuccess(response.data) // 💡 상위 App 상태에 유저 정보 저장
-    })
-    .catch(error => {
-      alert(error.response?.data || "로그인에 실패했습니다. 이메일이나 비밀번호를 확인해주세요.")
+      // 💡 [디버깅 코드 추가] 백엔드가 진짜 뭘 넘겨줬는지 F12 콘솔창에서 확인!
+      console.log("백엔드가 보내준 로그인 데이터:", response.data);
+      
+      alert(`${response.data.nickname}님, 로그인 성공!`);
+      onLoginSuccess(response.data); 
     })
   }
 

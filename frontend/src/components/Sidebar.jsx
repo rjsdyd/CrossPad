@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Gamepad2, Monitor, Calendar, Menu, User } from 'lucide-react'
 
-function Sidebar({ activeTab, setActiveTab }) {
+function Sidebar({ activeTab, setActiveTab, user }) {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
@@ -11,7 +11,7 @@ function Sidebar({ activeTab, setActiveTab }) {
           <Menu size={24} />
         </button>
         {isOpen && (
-          <h1 className="sidebar-title">CrossPad</h1>
+          <h1 className="sidebar-title" onClick={() => setActiveTab('NINTENDO')} style={{cursor:'pointer'}}>CrossPad</h1>
         )}
       </div>
       
@@ -37,11 +37,15 @@ function Sidebar({ activeTab, setActiveTab }) {
           <Calendar size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>출시 예정작</span>}
         </button>
         
+        {/* 💡 이름은 언제나 깔끔하게 '마이페이지'로 고정하되, 활성화 불만 켜줍니다 */}
         <button 
-          onClick={() => setActiveTab('LOGIN')}
-          className={`nav-btn ${['LOGIN', 'SIGNUP'].includes(activeTab) ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}
-          title="마이페이지">
-          <User size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>마이페이지</span>}
+          onClick={() => setActiveTab(user ? 'MYPAGE' : 'LOGIN')}
+          className={`nav-btn ${['LOGIN', 'SIGNUP', 'MYPAGE', 'ADMIN'].includes(activeTab) ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}
+          style={{ marginTop: 'auto' }}
+          title="마이페이지"
+        >
+          <User size={24} style={{ minWidth: '24px' }} /> 
+          {isOpen && <span>마이페이지</span>}
         </button>
       </nav>
     </aside>

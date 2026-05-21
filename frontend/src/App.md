@@ -7,5 +7,6 @@
 - **조건부 렌더링 (라우팅)**: `renderContent()` 함수를 사용하여 `activeTab` 상태에 따라 메인 피드(`MainFeed`) 또는 인증 관련 화면(`Login`, `Signup`, `MyPage`)을 동적으로 렌더링합니다.
 - **공통 레이아웃 구성**: 데스크탑을 위한 `Sidebar`와 모바일을 위한 `BottomNav`를 배치하고 컨텐츠 영역을 분리합니다.
 
-### 최근 업데이트
+### 업데이트 내역
+#### 2026-05-21
 - **컴포넌트 경로 수정**: 구조 개편에 맞춰 `MainFeed`, `AdminDashboard` 컴포넌트의 import 경로 오류 해결

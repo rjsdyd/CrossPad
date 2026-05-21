@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Shield } from 'lucide-react'
 import './AdminDashboard.css'
 
 function AdminDashboard({ user }) {
@@ -28,7 +29,21 @@ function AdminDashboard({ user }) {
       .catch(error => alert(error.response?.data))
   }
 
-  // 3. 특정 유저 강제 탈퇴 (Ban) 처리
+  // 3. 특정 유저 권한 강등 처리 (일반 유저로 변경)
+  const handleDemote = (targetId, nickname) => {
+    if (!window.confirm(`[${nickname}] 님의 관리자 권한을 해제하고 일반 유저로 강등시키겠습니까?`)) return
+
+    axios.post(`http://localhost:8080/api/admin/members/${targetId}/demote?email=${user.email}`)
+      .then(response => {
+        alert(response.data)
+        fetchMembers() // 목록 새로고침
+      })
+      .catch(error => {
+        alert(error.response?.data || "권한 강등 처리에 실패했습니다.")
+      })
+  }
+
+  // 4. 특정 유저 강제 탈퇴 (Ban) 처리
   const handleBan = (targetId, nickname) => {
     if (!window.confirm(`[${nickname}] 님을 정말 강제 탈퇴시키겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return
 
@@ -42,8 +57,11 @@ function AdminDashboard({ user }) {
 
   return (
     <div className="admin-container">
-      <div className="admin-header">
-        <h1 className="admin-title">👑 관리자 제어 대시보드</h1>
+      <div className="admin-header" style={{ textAlign: 'center' }}>
+        <h1 className="admin-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+          <Shield size={32} color="#E5E7EB" />
+          관리자 제어 대시보드
+        </h1>
         <p className="admin-subtitle">CrossPad 플랫폼의 전체 회원 권한 조정 및 탈퇴 관리를 총괄합니다.</p>
       </div>
 
@@ -77,6 +95,16 @@ function AdminDashboard({ user }) {
                       onClick={() => handlePromote(member.id, member.nickname)}
                     >
                       관리자 승급
+                    </button>
+                  )}
+                  {/* 대상이 관리자이고 본인이 아닐 때만 권한 강등 버튼 노출 */}
+                  {member.role === 'ROLE_ADMIN' && member.email !== user.email && (
+                    <button 
+                      className="action-btn btn-demote"
+                      style={{ backgroundColor: '#f59e0b', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '13px' }}
+                      onClick={() => handleDemote(member.id, member.nickname)}
+                    >
+                      권한 강등
                     </button>
                   )}
                   {/* 본인 계정은 강제탈퇴 버튼 비활성화 (보호 조치) */}

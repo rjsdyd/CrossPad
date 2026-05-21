@@ -1,4 +1,5 @@
 import './MyPage.css'
+import { Shield } from 'lucide-react'
 
 function MyPage({ user, handleLogout, setActiveTab }) {
   return (
@@ -29,7 +30,7 @@ function MyPage({ user, handleLogout, setActiveTab }) {
               style={{ color: user?.role === 'ROLE_ADMIN' ? 'var(--nintendo-color)' : 'var(--ps-color)' }}
             >
               {/* 💡 대소문자나 공백 때문에 안 뜰 수 있으니 확실하게 바인딩 */}
-              {user?.role === 'ROLE_ADMIN' ? '👑 최고 관리자' : '일반 회원'}
+              {user?.role === 'ROLE_ADMIN' ? '관리자' : '일반 유저'}
             </span>
           </div>
         </div>
@@ -42,11 +43,15 @@ function MyPage({ user, handleLogout, setActiveTab }) {
               backgroundColor: 'transparent', 
               border: '1px dashed var(--nintendo-color)', 
               color: 'var(--nintendo-color)',
-              marginBottom: '12px'
+              marginBottom: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
             }}
             onClick={() => setActiveTab('ADMIN')}
           >
-            🛡️ 관리자 대시보드 진입
+            <Shield size={18} color="#E5E7EB" /> 관리자 대시보드 진입
           </button>
         )}
 

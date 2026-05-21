@@ -1,7 +1,58 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { ArrowLeft, Star, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import './GameDetail.css'
+
+// 더보기 기능이 적용된 줄거리 컴포넌트
+function ExpandableSummary({ text }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [showButton, setShowButton] = useState(false)
+  const textRef = useRef(null)
+
+  useEffect(() => {
+    if (textRef.current) {
+      // 텍스트의 실제 전체 높이(scrollHeight)가 화면에 표시된 제한 높이(clientHeight)보다 크면 지정된 줄 수를 초과한 것임
+      setShowButton(textRef.current.scrollHeight > textRef.current.clientHeight)
+    }
+  }, [text])
+
+  if (!text) return <p className="detail-summary">등록된 상세 줄거리 정보가 없습니다.</p>
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <p 
+        ref={textRef}
+        className="detail-summary"
+        style={{
+          display: isExpanded ? 'block' : '-webkit-box',
+          WebkitLineClamp: isExpanded ? 'unset' : 8, /* 포스터 높이(400px)에 맞추기 위해 8줄로 세팅 */
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          marginBottom: showButton ? '8px' : '0'
+        }}
+      >
+        {text}
+      </p>
+      {showButton && (
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#9ca3af',
+            cursor: 'pointer',
+            padding: 0,
+            fontSize: '14px',
+            textDecoration: 'underline'
+          }}
+        >
+          {isExpanded ? '접기' : '...더보기'}
+        </button>
+      )}
+    </div>
+  )
+}
 
 function GameDetail({ gameId, setSelectedGameId }) {
   const [game, setGame] = useState(null)
@@ -43,7 +94,7 @@ function GameDetail({ gameId, setSelectedGameId }) {
           
           <div className="detail-meta">
             <span className={`badge-platform ${game.platform === 'NINTENDO' ? 'role-admin' : 'role-user'}`}>
-              {game.platform}
+              {game.platform === 'NINTENDO' ? '닌텐도 스위치' : game.platform === 'PLAYSTATION' ? '플레이스테이션' : game.platform}
             </span>
             <div className="rating-zone">
               <Star size={18} fill="#f59e0b" color="#f59e0b" />
@@ -53,9 +104,7 @@ function GameDetail({ gameId, setSelectedGameId }) {
 
           <hr style={{border: '0', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '0 0 20px 0'}} />
 
-          <p className="detail-summary">
-            {game.summary || "등록된 상세 줄거리 정보가 없습니다."}
-          </p>
+          <ExpandableSummary text={game.summary} />
         </div>
       </div>
 

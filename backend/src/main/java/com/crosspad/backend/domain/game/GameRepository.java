@@ -10,4 +10,5 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     boolean existsByIgdbGameId(Long igdbGameId);
 
     List<Game> findByPlatformOrderByRatingDesc(String platform);
+    List<Game> findByTitleContainingIgnoreCase(String title);
 }

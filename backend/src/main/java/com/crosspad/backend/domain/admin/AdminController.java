@@ -44,4 +44,14 @@ public class AdminController {
             return ResponseEntity.status(403).body(e.getMessage());
         }
     }
+
+    @PostMapping("/members/{targetId}/demote")
+    public ResponseEntity<?> demoteMember(@PathVariable Long targetId, @RequestParam String email) {
+        try {
+            adminService.demoteMember(email, targetId);
+            return ResponseEntity.ok("해당 유저가 일반 유저로 강등되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        }
+    }
 }

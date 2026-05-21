@@ -12,28 +12,24 @@ public class IgdbGameDto {
     private String summary;
     private Cover cover;
     private Double rating;
-    private List<Integer> platforms;
 
-    // 💡 [추가] IGDB 영상 및 스크린샷 데이터 바인딩용 필드
+    // 🌟 [이 부분 추가] 실시간 플랫폼 판별을 위해 번호 리스트 필드를 추가합니다!
+    private List<Long> platforms;
+
     private List<Video> videos;
     private List<Screenshot> screenshots;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     public static class Cover {
         private String url;
     }
 
-    // 💡 [추가] 비디오 객체 구조
-    @Getter
-    @Setter
+    @Getter @Setter
     public static class Video {
-        private String video_id; // IGDB API 필드명과 일치해야 함
+        private String video_id;
     }
 
-    // 💡 [추가] 스크린샷 객체 구조
-    @Getter
-    @Setter
+    @Getter @Setter
     public static class Screenshot {
         private String url;
     }

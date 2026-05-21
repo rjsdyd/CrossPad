@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Gamepad2, Monitor, Calendar, Menu, User } from 'lucide-react'
+import { Gamepad2, Monitor, Calendar, Search, Menu, User } from 'lucide-react'
 
 function Sidebar({ activeTab, setActiveTab, user }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -37,7 +37,14 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           <Calendar size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>출시 예정작</span>}
         </button>
         
-        {/* 💡 이름은 언제나 깔끔하게 '마이페이지'로 고정하되, 활성화 불만 켜줍니다 */}
+        {/* 🌟 [게임 검색] 메뉴 버튼 깨끗한 문법으로 안착 완료! */}
+        <button 
+          onClick={() => setActiveTab('SEARCH')}
+          className={`nav-btn ${activeTab === 'SEARCH' ? 'nav-btn-upcoming' : 'nav-btn-inactive'}`}
+          title="게임 검색">
+          <Search size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>게임 검색</span>}
+        </button>
+        
         <button 
           onClick={() => setActiveTab(user ? 'MYPAGE' : 'LOGIN')}
           className={`nav-btn ${['LOGIN', 'SIGNUP', 'MYPAGE', 'ADMIN'].includes(activeTab) ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}

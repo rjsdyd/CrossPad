@@ -1,0 +1,213 @@
+/* 검색 페이지 전체 컨테이너 */
+.search-container {
+    width: 100%;
+    max-width: 1024px;
+    margin: 48px auto;
+    padding: 24px;
+    background-color: #111827; /* gray-900 */
+    color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* 검색창 구역 */
+.search-input-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.search-input {
+    width: 100%;
+    height: 56px;
+    padding-left: 20px;
+    padding-right: 56px;
+    border-radius: 8px;
+    background-color: #1f2937; /* gray-800 */
+    border: 1px solid #374151; /* gray-700 */
+    font-size: 18px;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #a855f7; /* purple-500 */
+}
+
+.search-button {
+    position: absolute;
+    right: 16px;
+    top: 14px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    color: #a855f7;
+}
+
+/* 최근 검색어 구역 */
+.recent-search-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.recent-title {
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 4px;
+}
+
+.recent-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.recent-chip:hover {
+    background-color: #374151;
+}
+
+.delete-chip-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 0 2px;
+}
+
+.delete-chip-btn:hover {
+    color: #f87171; /* red-400 */
+}
+
+/* 유명 명작 시리즈 버튼 추천 구역 */
+.famous-wrapper {
+    margin-bottom: 32px;
+}
+
+.famous-title {
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.famous-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.famous-btn {
+    padding: 8px 16px;
+    background: linear-gradient(to right, #7e22ce, #4338ca); /* purple-700 to indigo-700 */
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s;
+}
+
+.famous-btn:hover {
+    opacity: 0.9;
+}
+
+/* 검색 결과 목록 구역 */
+.result-title {
+    font-size: 20px;
+    font-bold: 700;
+    margin-bottom: 16px;
+    border-b: 1px solid #1f2937;
+    padding-bottom: 8px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .result-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.search-result-card {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.search-result-card:hover {
+    border-color: #a855f7;
+}
+
+.search-result-cover {
+    width: 96px;
+    height: 128px;
+    object-fit: cover;
+    border-radius: 6px;
+    background-color: #111827;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #d8b4fe; /* purple-300 */
+    margin: 0 0 4px 0;
+}
+
+.search-result-rating {
+    font-size: 12px;
+    color: #fbbf24; /* yellow-400 */
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.search-result-summary {
+    font-size: 14px;
+    color: #d1d5db; /* gray-300 */
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 상태 메시지 */
+.status-msg {
+    text-align: center;
+    padding: 48px 0;
+    color: #6b7280;
+}

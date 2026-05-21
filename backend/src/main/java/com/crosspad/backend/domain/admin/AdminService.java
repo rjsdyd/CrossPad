@@ -43,4 +43,14 @@ public class AdminService {
 
         target.promoteToAdmin();
     }
+
+    @Transactional
+    public void demoteMember(String adminEmail, Long targetMemberId) {
+        validateAdminRole(adminEmail);
+
+        Member target = memberRepository.findById(targetMemberId)
+                .orElseThrow(() -> new IllegalArgumentException("대상 유저를 찾을 수 없습니다."));
+
+        target.demoteToUser(); // Member 엔티티에 권한을 ROLE_USER로 바꾸는 메서드를 추가해야 합니다.
+    }
 }

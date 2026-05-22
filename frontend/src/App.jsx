@@ -7,6 +7,8 @@ import Login from './pages/auth/Login'
 import MyPage from './pages/auth/MyPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import SearchPage from './pages/SearchPage' // 💡 SearchPage 파일의 실제 경로에 맞게 매핑되어 있는지 확인해 주세요!
+import RankingPage from './pages/RankingPage'
+import UpcomingPage from './pages/UpcomingPage'
 import './App.css'
 
 function App() {
@@ -39,8 +41,10 @@ function App() {
     
     // 🌟 탭 상태가 'SEARCH'일 때 분리형 CSS가 내장된 검색 페이지 컴포넌트를 띄워줍니다.
     if (activeTab === 'SEARCH') return <SearchPage />
+    if (activeTab === 'RANKING') return <RankingPage />
+    if (activeTab === 'UPCOMING') return <UpcomingPage />
     
-    return <MainFeed activeTab={activeTab} />
+    return <MainFeed activeTab={activeTab} user={user} />
   }
 
   return (

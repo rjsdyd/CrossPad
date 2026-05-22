@@ -1,0 +1,186 @@
+.ranking-container {
+    padding: 40px;
+    background-color: #0b0f19;
+    min-height: 101vh; /* 💡 데이터가 적어도 항상 우측 스크롤바를 유지하여 좌우 밀림 원천 차단 */
+    box-sizing: border-box;
+}
+
+.ranking-title {
+    font-size: 24px; /* 💡 메인 피드와 동일한 기본 폰트 크기 */
+    font-weight: 900;
+    color: #E5E7EB;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 플랫폼 필터 버튼 스타일 */
+.ranking-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border-radius: 24px;
+    border: 1px solid #4b5563;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    /* 💡 배경색, 글자색, 테두리색만 부드럽게 변하도록 제한하여 불필요한 움직임 방지 */
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn.active-all {
+    background: #4b5563;
+    color: #ffffff;
+    border-color: #4b5563;
+}
+
+.filter-btn.active-nintendo {
+    background: rgba(255, 22, 38, 0.15);
+    color: #FF1626;
+    border-color: rgba(255, 22, 38, 0.3);
+}
+
+.filter-btn.active-playstation {
+    background: rgba(0, 114, 255, 0.15);
+    color: #0072FF;
+    border-color: rgba(0, 114, 255, 0.3);
+}
+
+.ranking-board {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #2d3748;
+    border-radius: 16px;
+    /* 💡 모바일 등 좁은 화면에서 테이블이 찌그러지지 않고 스크롤되도록 처리 */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ranking-table {
+    width: 100%;
+    min-width: 600px; /* 💡 테이블의 최소 너비를 보장하여 레이아웃 붕괴 방지 */
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: fixed; /* 💡 텍스트 길이에 따라 표 너비가 출렁이지 않도록 완전히 틀을 고정 */
+}
+
+/* 💡 각 열(Column)의 너비를 픽셀 단위로 강제 고정 */
+.th-rank { width: 80px; text-align: center; }
+.th-cover { width: 90px; }
+.th-title { width: auto; } /* 남는 공간은 모두 제목이 차지 */
+.th-platform { width: 140px; text-align: center; }
+.th-rating { width: 100px; text-align: center; }
+
+.ranking-table th {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 18px;
+    color: #9ca3af;
+    font-weight: 700;
+    font-size: 14px;
+    border-bottom: 1px solid #2d3748;
+}
+
+.ranking-row {
+    border-bottom: 1px solid rgba(45, 55, 72, 0.5);
+    transition: background-color 0.2s;
+    height: 85px; /* 💡 모든 행의 높이를 고정하여 리스트 전환 시 상하 출렁임 완벽 차단 */
+}
+
+.ranking-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.td-rank {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* 1, 2, 3등 금은동 컬러 포인트 */
+.rank-1 { color: #ffd700; font-size: 22px; }
+.rank-2 { color: #c0c0c0; font-size: 22px; }
+.rank-3 { color: #cd7f32; font-size: 22px; }
+
+.td-cover {
+    padding: 10px;
+}
+
+.rank-game-cover {
+    width: 50px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    background-color: #1f2937; /* 💡 이미지 로딩 전 빈 공간 유지 (Layout Shift 방지) */
+    display: block; /* 인라인 속성에서 발생하는 미세한 하단 여백 제거 */
+}
+
+.rank-game-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #E5E7EB;
+    /* 💡 제목이 너무 길면 칸을 밀어내지 않고 '...'으로 말줄임 처리 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.platform-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.td-platform { text-align: center; }
+.platform-badge.nintendo {
+    background-color: rgba(255, 22, 38, 0.15);
+    color: #FF1626;
+    border: 1px solid rgba(255, 22, 38, 0.3);
+}
+
+.platform-badge.playstation {
+    background-color: rgba(0, 114, 255, 0.15);
+    color: #0072FF;
+    border: 1px solid rgba(0, 114, 255, 0.3);
+}
+
+.td-rating { text-align: center; }
+.rating-score {
+    font-weight: 800;
+    color: #ffb100;
+    font-size: 16px;
+}
+
+.ranking-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #E5E7EB;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 💡 메인 피드와 동일한 반응형 폰트 크기 적용 */
+@media (min-width: 768px) {
+  .ranking-title { font-size: 30px; margin-bottom: 32px; }
+}
+
+@media (min-width: 1024px) {
+  .ranking-title { font-size: 48px; }
+}

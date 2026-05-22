@@ -11,4 +11,5 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     List<Game> findByPlatformOrderByRatingDesc(String platform);
     List<Game> findByTitleContainingIgnoreCase(String title);
+    List<Game> findTop50ByPlatformOrderByRatingDesc(String platform);
 }

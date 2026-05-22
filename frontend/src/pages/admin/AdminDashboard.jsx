@@ -65,8 +65,9 @@ function AdminDashboard({ user }) {
         <p className="admin-subtitle">CrossPad 플랫폼의 전체 회원 권한 조정 및 탈퇴 관리를 총괄합니다.</p>
       </div>
 
-      <div className="table-wrapper">
-        <table className="admin-table">
+      {/* 💡 모바일 환경에서 표가 찌그러지거나 잘리지 않도록 가로 스크롤 영역 추가 */}
+      <div className="table-wrapper" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <table className="admin-table" style={{ minWidth: '768px' }}>
           <thead>
             <tr>
               <th>고유 ID</th>
@@ -92,6 +93,7 @@ function AdminDashboard({ user }) {
                   {member.role === 'ROLE_USER' && (
                     <button 
                       className="action-btn btn-promote"
+                      style={{ width: '105px', textAlign: 'center', whiteSpace: 'nowrap' }}
                       onClick={() => handlePromote(member.id, member.nickname)}
                     >
                       관리자 승급
@@ -101,7 +103,7 @@ function AdminDashboard({ user }) {
                   {member.role === 'ROLE_ADMIN' && member.email !== user.email && (
                     <button 
                       className="action-btn btn-demote"
-                      style={{ backgroundColor: '#f59e0b', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '13px' }}
+                      style={{ width: '105px', textAlign: 'center', whiteSpace: 'nowrap', backgroundColor: '#f59e0b', color: 'white' }}
                       onClick={() => handleDemote(member.id, member.nickname)}
                     >
                       권한 강등
@@ -111,6 +113,7 @@ function AdminDashboard({ user }) {
                   {member.email !== user.email && (
                     <button 
                       className="action-btn btn-ban"
+                      style={{ width: '105px', textAlign: 'center', whiteSpace: 'nowrap' }}
                       onClick={() => handleBan(member.id, member.nickname)}
                     >
                       강제 탈퇴

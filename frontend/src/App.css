@@ -38,6 +38,7 @@ body {
   color: var(--text-color);
   margin: 0;
   overflow-x: hidden;
+  overflow-y: scroll; /* 💡 리스트 길이에 따라 스크롤바가 생겼다 사라지며 화면이 움직이는 현상 방지 */
 }
 
 .app-container {
@@ -196,6 +197,9 @@ body {
 .tab-btn.active-nintendo { color: var(--nintendo-color); }
 .tab-btn.active-ps { color: var(--ps-color); }
 .tab-btn.active-mypage { color: #8B5CF6; }
+.tab-btn.active-search { color: #a855f7; } /* 💡 검색 탭 활성화 색상 */
+.tab-btn.active-ranking { color: #f59e0b; } /* 💡 랭킹 탭 활성화 색상 */
+.tab-btn.active-upcoming { color: #10B981; } /* 💡 출시예정작 탭 활성화 색상 */
 
 .tab-text {
   font-size: 10px;

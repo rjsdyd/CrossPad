@@ -1,0 +1,170 @@
+.upcoming-container {
+    padding: 40px;
+    background-color: #0b0f19;
+    min-height: 100vh;
+    box-sizing: border-box;
+    /* 🌟 [화면 흔들림 방지] 스크롤바 공간을 브라우저에 항상 고정 확보하여 좌우 밀림 현상 박멸 */
+    scrollbar-gutter: stable;
+}
+
+.upcoming-title {
+    font-size: 24px; /* 💡 메인 피드와 동일한 기본 폰트 크기 */
+    font-weight: 900;
+    color: #E5E7EB;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upcoming-grid {
+    display: flex;
+    flex-direction: column; /* 💡 카드(그리드) 형식을 버리고 세로 리스트 형식으로 100% 강제 고정 */
+    gap: 16px;
+}
+
+/* 💡 각 카드의 형태를 잡아주는 베이스 클래스 명시 */
+.upcoming-card {
+    display: flex;
+    flex-direction: row; /* 💡 좌측 썸네일, 우측 텍스트 배치 */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #2d3748;
+    border-radius: 12px;
+    padding: 16px;
+    gap: 20px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.upcoming-card:hover {
+    transform: translateY(-3px);
+    border-color: #4b5563;
+}
+
+.upcoming-cover-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    width: 120px; /* 💡 리스트 형식에 맞게 이미지 크기 고정 (반응형 찌그러짐 원천 차단) */
+    height: 160px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    margin-bottom: 0;
+}
+
+.upcoming-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.upcoming-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 4px 0;
+}
+
+.upcoming-game-title {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #E5E7EB;
+    line-height: 1.4;
+}
+
+/* 💡 메인 피드 스타일의 기종 배지 */
+.upcoming-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.upcoming-platform-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.upcoming-platform-badge.badge-nintendo {
+    background-color: rgba(255, 22, 38, 0.15);
+    color: #FF1626;
+    border: 1px solid rgba(255, 22, 38, 0.3);
+}
+
+.upcoming-platform-badge.badge-playstation {
+    background-color: rgba(0, 114, 255, 0.15);
+    color: #0072FF;
+    border: 1px solid rgba(0, 114, 255, 0.3);
+}
+
+/* 💡 리스트 형태에서 게임 설명을 보여주기 위한 요약문 속성 부활 */
+.upcoming-summary {
+    margin: 0;
+    font-size: 14px;
+    color: #9ca3af;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 🟢 테마에 맞춘 로딩 스피너 감성 (App.jsx의 upcoming-color 그린 테마 매핑) */
+.upcoming-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #E5E7EB;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid #10B981; /* 사이드바 출시예정작 초록색 컬러 매핑 */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 💡 메인 피드와 동일한 반응형 폰트 크기 적용 */
+@media (min-width: 768px) {
+  .upcoming-title { font-size: 30px; margin-bottom: 32px; }
+}
+
+@media (min-width: 1024px) {
+  .upcoming-title { font-size: 48px; }
+}
+
+/* 🌟 모바일 반응형 디자인 최적화 (767px 이하 스마트폰 환경) */
+@media (max-width: 767px) {
+  .upcoming-card {
+    padding: 12px;
+    gap: 12px;
+  }
+  .upcoming-cover-wrapper {
+    width: 90px;
+    height: 120px;
+  }
+  .upcoming-game-title {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  .upcoming-summary {
+    font-size: 12px;
+    /* 💡 화면을 너무 차지하지 않도록 모바일에선 2줄로 제어 */
+    -webkit-line-clamp: 2; 
+  }
+}

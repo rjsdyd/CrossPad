@@ -183,7 +183,7 @@
 .search-result-title {
     font-size: 18px;
     font-weight: 700;
-    color: #d8b4fe; /* purple-300 */
+    color: #E5E7EB; /* 다른 페이지와 동일한 색상으로 통일 */
     margin: 0 0 4px 0;
 }
 
@@ -210,4 +210,25 @@
     text-align: center;
     padding: 48px 0;
     color: #6b7280;
+}
+
+/* 🌟 모바일 반응형 디자인 최적화 (767px 이하 스마트폰 환경) */
+@media (max-width: 767px) {
+    .search-result-card {
+        padding: 12px;
+        gap: 12px;
+    }
+    .search-result-cover {
+        width: 72px;
+        height: 96px;
+    }
+    .search-result-title {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+    .search-result-summary {
+        font-size: 12px;
+        /* 💡 화면을 너무 차지하지 않도록 모바일에선 2줄로 제어 */
+        -webkit-line-clamp: 2;
+    }
 }

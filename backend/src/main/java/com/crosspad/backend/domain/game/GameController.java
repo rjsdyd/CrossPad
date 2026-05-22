@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -13,6 +16,7 @@ import java.util.List;
 public class GameController {
 
     private final GameRepository gameRepository;
+    private final GameUpcomingService gameUpcomingService;
 
     /**
          * 게임 목록 조회 API
@@ -40,5 +44,30 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<List<Game>> getGameRanking() {
+        // 1. 닌텐도 평점 탑 50 추출 (타입을 List<Game>으로 올바르게 수정)
+        List<Game> nintendoTop50 = gameRepository.findTop50ByPlatformOrderByRatingDesc("NINTENDO");
+
+        // 2. 플레이스테이션 평점 탑 50 추출 (언더바 오타 제거 및 타입 수정)
+        List<Game> playstationTop50 = gameRepository.findTop50ByPlatformOrderByRatingDesc("PLAYSTATION");
+
+        // 3. 두 기종의 데이터를 하나의 바구니(총 100개)로 통합
+        List<Game> totalRankingList = new ArrayList<>();
+        totalRankingList.addAll(nintendoTop50);
+        totalRankingList.addAll(playstationTop50);
+
+        // 4. 🔥 합쳐진 100개의 게임을 평점(Rating) 높은 순으로 다시 한번 정렬!
+        totalRankingList.sort(Comparator.comparing(Game::getRating).reversed());
+
+        return ResponseEntity.ok(totalRankingList);
+    }
+
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<Game>> getUpcomingGames() {
+        List<Game> upcomingList = gameUpcomingService.getOrCreateUpcomingGames();
+        return ResponseEntity.ok(upcomingList);
     }
 }

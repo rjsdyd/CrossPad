@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Gamepad2, Monitor, Calendar, Search, Menu, User } from 'lucide-react'
+// 🌟 lucide-react에서 랭킹판에 딱 어울리는 'Trophy(트로피)' 아이콘을 추가로 땡겨옵니다!
+import { Gamepad2, Monitor, Calendar, Search, Menu, User, Trophy } from 'lucide-react'
 
 function Sidebar({ activeTab, setActiveTab, user }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -29,6 +30,14 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           title="플레이스테이션">
           <Monitor size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>플레이스테이션</span>}
         </button>
+
+        {/* 🏆 [명예의 전당 랭킹] 메뉴 버튼을 닌텐도/플스 바로 밑에 안착시켰습니다! */}
+        <button 
+          onClick={() => setActiveTab('RANKING')}
+          className={`nav-btn ${activeTab === 'RANKING' ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}
+          title="명예의 전당">
+          <Trophy size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>명예의 전당</span>}
+        </button>
         
         <button 
           onClick={() => setActiveTab('UPCOMING')}
@@ -37,7 +46,6 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           <Calendar size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>출시 예정작</span>}
         </button>
         
-        {/* 🌟 [게임 검색] 메뉴 버튼 깨끗한 문법으로 안착 완료! */}
         <button 
           onClick={() => setActiveTab('SEARCH')}
           className={`nav-btn ${activeTab === 'SEARCH' ? 'nav-btn-upcoming' : 'nav-btn-inactive'}`}

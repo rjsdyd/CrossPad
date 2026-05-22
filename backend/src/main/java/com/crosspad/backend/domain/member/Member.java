@@ -3,6 +3,9 @@ package com.crosspad.backend.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "member")
 @Getter
@@ -26,6 +29,7 @@ public class Member {
 
     @Column(nullable = false, length = 20)
     private String role;
+
 
     public void promoteToAdmin() {
         this.role = "ROLE_ADMIN";

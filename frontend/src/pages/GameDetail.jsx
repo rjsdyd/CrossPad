@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
-import { ArrowLeft, Star, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, Star, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import './GameDetail.css'
 
 // 더보기 기능이 적용된 줄거리 컴포넌트
@@ -58,8 +58,12 @@ function GameDetail({ gameId, setSelectedGameId }) {
   const [game, setGame] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
   useEffect(() => {
+    const userStr = localStorage.getItem('user')
+    const user = userStr ? JSON.parse(userStr) : null
+
     // 백엔드로부터 특정 게임의 상세 정보 수신
     axios.get(`http://localhost:8080/api/games/${gameId}`)
       .then(response => {
@@ -71,7 +75,47 @@ function GameDetail({ gameId, setSelectedGameId }) {
         alert("게임 정보를 불러오는데 실패했습니다.")
         setSelectedGameId(null)
       })
+
+    // 사용자가 로그인한 상태라면 북마크 여부 초기값 불러오기
+    if (user && user.id) {
+      axios.get(`http://localhost:8080/api/bookmarks/check?memberId=${user.id}&gameId=${gameId}`)
+        .then(response => {
+          setIsBookmarked(response.data)
+        })
+        .catch(error => console.error("북마크 상태 확인 실패:", error))
+    } else {
+      setIsBookmarked(false)
+    }
   }, [gameId])
+
+  // 북마크 토글 핸들러
+  const handleToggleBookmark = async (e) => {
+    e.stopPropagation(); // 혹시 모를 이벤트 버블링 차단
+
+    // 실제 로컬 스토리지 등에 저장된 로그인 유저 정보 가져오기
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+
+    if (!user || !user.id) {
+      alert("로그인이 필요한 기능입니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/bookmarks/toggle', {
+        memberId: user.id,
+        gameId: gameId
+      });
+      alert(response.data);
+      setIsBookmarked(!isBookmarked);
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert(error.response.data); // 관리자 계정 거부 메시지 출력
+      } else {
+        alert("북마크 처리 중 오류가 발생했습니다.");
+      }
+    }
+  }
 
   if (loading) return <div style={{color: 'white', padding: '40px', textLight: 'center'}}>로딩 중...</div>
 
@@ -92,7 +136,7 @@ function GameDetail({ gameId, setSelectedGameId }) {
         <div className="detail-info">
           <h1 className="detail-title">{game.title}</h1>
           
-          <div className="detail-meta">
+          <div className="detail-meta" style={{ alignItems: 'center' }}>
             <span className={`badge-platform ${game.platform === 'NINTENDO' ? 'role-admin' : 'role-user'}`}>
               {game.platform === 'NINTENDO' ? '닌텐도 스위치' : game.platform === 'PLAYSTATION' ? '플레이스테이션' : game.platform}
             </span>
@@ -100,6 +144,26 @@ function GameDetail({ gameId, setSelectedGameId }) {
               <Star size={18} fill="#f59e0b" color="#f59e0b" />
               {game.rating ? Math.round(game.rating) : '평점 없음'} / 100
             </div>
+
+            {/* 💡 북마크 버튼을 별점 옆으로 이동 및 사이즈 최적화 */}
+            <button 
+              onClick={handleToggleBookmark}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: 'none',
+                borderRadius: '50%',
+                padding: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background 0.2s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+              onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            >
+              <Heart size={20} fill={isBookmarked ? "#ef4444" : "none"} color={isBookmarked ? "#ef4444" : "#ffffff"} />
+            </button>
           </div>
 
           <hr style={{border: '0', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '0 0 20px 0'}} />

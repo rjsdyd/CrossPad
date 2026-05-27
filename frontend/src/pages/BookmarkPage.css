@@ -1,0 +1,119 @@
+/* 찜 목록 전체 컨테이너 */
+.bookmark-page {
+  max-width: 800px;
+  margin: 40px auto;
+  color: #e5e7eb;
+  padding: 0 20px;
+}
+
+/* 페이지 제목 */
+.page-title {
+  font-size: 26px;
+  border-bottom: 2px solid #374151;
+  padding-bottom: 16px;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* 리스트 컨테이너 (세로 정렬) */
+.bookmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 개별 게임 카드 (가로 리스트형) */
+.bookmark-list-item {
+  display: flex;
+  align-items: center;
+  background-color: #1f2937;
+  padding: 16px;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* 카드에 마우스 올렸을 때 액션 */
+.bookmark-list-item:hover {
+  transform: translateX(5px);
+  background-color: #374151;
+}
+
+/* 게임 포스터 이미지 */
+.list-poster {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 게임 정보 영역 (가운데 꽉 채우기) */
+.list-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 게임 제목 */
+.list-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+/* 별점과 플랫폼 묶음 */
+.list-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  align-items: center;
+}
+
+/* 별점 색상 */
+.list-rating {
+  color: #fbbf24;
+  font-weight: bold;
+}
+
+/* 플랫폼 뱃지 스타일 */
+.list-platform {
+  background-color: #4b5563;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: #e5e7eb;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 하트 버튼 (찜 취소) */
+.list-heart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px;
+  /* 통통 튀는 애니메이션 효과 */
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 하트 버튼에 마우스 올렸을 때 커지는 효과 */
+.list-heart-btn:hover {
+  transform: scale(1.2);
+}
+
+/* 로딩 중이거나 찜한 게임이 없을 때 화면 */
+.fallback, .empty-state {
+  text-align: center;
+  padding: 100px 0;
+  font-size: 18px;
+  color: #9ca3af;
+  background-color: #1f2937;
+  border-radius: 12px;
+  margin-top: 20px;
+}

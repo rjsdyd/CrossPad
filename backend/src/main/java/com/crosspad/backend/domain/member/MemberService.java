@@ -62,10 +62,6 @@ public class MemberService {
 
         System.out.println("🚨 현재 로그인 시도 유저의 DB 권한: " + member.getRole());
 
-        return new LoginResponseDto(
-                member.getEmail(),
-                member.getNickname(),
-                member.getRole()
-        );
+        return new LoginResponseDto(member.getId(), member.getEmail(), member.getNickname(), member.getRole());
     }
 }

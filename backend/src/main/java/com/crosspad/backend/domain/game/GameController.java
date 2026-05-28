@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,11 +18,11 @@ public class GameController {
     private final GameUpcomingService gameUpcomingService;
 
     /**
-         * 게임 목록 조회 API
-         * URL 예시:
-         * 1) 전체 조회: http://localhost:8080/api/games
-         * 2) 닌텐도 필터: http://localhost:8080/api/games?platform=NINTENDO
-         * 3) 플스 필터: http://localhost:8080/api/games?platform=PLAYSTATION
+     * 게임 목록 조회 API
+     * URL 예시:
+     * 1) 전체 조회: http://localhost:8080/api/games
+     * 2) 닌텐도 필터: http://localhost:8080/api/games?platform=NINTENDO
+     * 3) 플스 필터: http://localhost:8080/api/games?platform=PLAYSTATION
      */
     @GetMapping
     public List<Game> getGames(@RequestParam(required = false) String platform) {

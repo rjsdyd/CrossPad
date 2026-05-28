@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './UpcomingPage.css';
 import GameDetail from './GameDetail';
+import './UpcomingPage.css';
 
 const UpcomingPage = () => {
     const [upcomingGames, setUpcomingGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedGameId, setSelectedGameId] = useState(null);
-    const [filter, setFilter] = useState('NINTENDO'); // 💡 기본값을 닌텐도 스위치로 변경
+    const [filter, setFilter] = useState('NINTENDO');
 
     useEffect(() => {
-        // 백엔드 출시 예정작 API 호출
+        if (!selectedGameId) {
+            const savedPos = sessionStorage.getItem('scroll_UpcomingPage');
+            if (savedPos) {
+                setTimeout(() => window.scrollTo(0, parseInt(savedPos, 10)), 10);
+                sessionStorage.removeItem('scroll_UpcomingPage');
+            }
+        }
+    }, [selectedGameId]);
+
+    useEffect(() => {
         axios.get('http://localhost:8080/api/games/upcoming')
             .then(response => {
                 setUpcomingGames(response.data);
@@ -31,12 +40,10 @@ const UpcomingPage = () => {
         );
     }
 
-    // 💡 게임을 클릭했을 때 상세 페이지로 화면을 전환합니다.
     if (selectedGameId) {
         return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
     }
 
-    // 💡 선택된 플랫폼 필터에 따라 리스트를 필터링합니다.
     const filteredGames = upcomingGames.filter(game => {
         return game.platform === filter;
     });
@@ -45,7 +52,6 @@ const UpcomingPage = () => {
         <div className="upcoming-container">
             <h1 className="upcoming-title">출시 예정 신작</h1>
 
-            {/* 💡 플랫폼 필터링 버튼 구역 (명예의 전당 버튼 스타일 클래스 재사용) */}
             <div className="ranking-filters" style={{ marginBottom: '30px' }}>
                 <button 
                     className={`filter-btn ${filter === 'NINTENDO' ? 'active-nintendo' : ''}`}
@@ -63,10 +69,12 @@ const UpcomingPage = () => {
 
             <div className="upcoming-grid">
                 {filteredGames.map((game) => (
-                    <div key={game.id} className="upcoming-card" onClick={() => setSelectedGameId(game.id)} style={{ cursor: 'pointer' }}>
+                    <div key={game.id} className="upcoming-card" onClick={() => {
+                        sessionStorage.setItem('scroll_UpcomingPage', window.scrollY);
+                        setSelectedGameId(game.id);
+                    }} style={{ cursor: 'pointer' }}>
                         <div className="upcoming-cover-wrapper">
                             <img 
-                                /* 💡 t_thumb(저화질)를 t_cover_big(고화질)로 교체하여 선명한 포스터 제공 */
                                 src={game.coverUrl ? game.coverUrl.replace('t_thumb', 't_cover_big') : 'https://via.placeholder.com/150x200?text=No+Cover'} 
                                 alt={game.title} 
                                 className="upcoming-cover" 
@@ -80,7 +88,6 @@ const UpcomingPage = () => {
                                     {game.platform === 'NINTENDO' ? '닌텐도 스위치' : game.platform === 'PLAYSTATION' ? '플레이스테이션' : game.platform}
                                 </span>
                             </div>
-                            {/* 💡 가로로 넓어진 리스트 형태에 맞춰 게임 설명을 다시 보여줍니다 */}
                             <p className="upcoming-summary">{game.summary}</p>
                         </div>
                     </div>

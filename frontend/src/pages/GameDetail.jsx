@@ -3,7 +3,6 @@ import axios from 'axios'
 import { ArrowLeft, Star, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import './GameDetail.css'
 
-// 더보기 기능이 적용된 줄거리 컴포넌트
 function ExpandableSummary({ text }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [showButton, setShowButton] = useState(false)
@@ -11,7 +10,6 @@ function ExpandableSummary({ text }) {
 
   useEffect(() => {
     if (textRef.current) {
-      // 텍스트의 실제 전체 높이(scrollHeight)가 화면에 표시된 제한 높이(clientHeight)보다 크면 지정된 줄 수를 초과한 것임
       setShowButton(textRef.current.scrollHeight > textRef.current.clientHeight)
     }
   }, [text])
@@ -25,7 +23,7 @@ function ExpandableSummary({ text }) {
         className="detail-summary"
         style={{
           display: isExpanded ? 'block' : '-webkit-box',
-          WebkitLineClamp: isExpanded ? 'unset' : 8, /* 포스터 높이(400px)에 맞추기 위해 8줄로 세팅 */
+          WebkitLineClamp: isExpanded ? 'unset' : 8,
           WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -59,24 +57,34 @@ function GameDetail({ gameId, setSelectedGameId }) {
   const [loading, setLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
   const [isBookmarked, setIsBookmarked] = useState(false)
+  const [toastMessage, setToastMessage] = useState(null)
+  const toastTimer = useRef(null)
+
+  const showToast = (msg) => {
+    setToastMessage(msg)
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => {
+      setToastMessage(null)
+    }, 3000)
+  }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const userStr = localStorage.getItem('user')
     const user = userStr ? JSON.parse(userStr) : null
 
-    // 백엔드로부터 특정 게임의 상세 정보 수신
     axios.get(`http://localhost:8080/api/games/${gameId}`)
       .then(response => {
         setGame(response.data)
         setLoading(false)
       })
       .catch(error => {
-        console.error("상세페이지 로딩 에러 원인:", error) // 💡 error 변수를 사용함!
+        console.error("상세페이지 로딩 에러 원인:", error)
         alert("게임 정보를 불러오는데 실패했습니다.")
         setSelectedGameId(null)
       })
 
-    // 사용자가 로그인한 상태라면 북마크 여부 초기값 불러오기
     if (user && user.id) {
       axios.get(`http://localhost:8080/api/bookmarks/check?memberId=${user.id}&gameId=${gameId}`)
         .then(response => {
@@ -88,11 +96,9 @@ function GameDetail({ gameId, setSelectedGameId }) {
     }
   }, [gameId])
 
-  // 북마크 토글 핸들러
   const handleToggleBookmark = async (e) => {
-    e.stopPropagation(); // 혹시 모를 이벤트 버블링 차단
+    e.stopPropagation();
 
-    // 실제 로컬 스토리지 등에 저장된 로그인 유저 정보 가져오기
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
 
@@ -106,11 +112,12 @@ function GameDetail({ gameId, setSelectedGameId }) {
         memberId: user.id,
         gameId: gameId
       });
-      alert(response.data);
+      const msg = !isBookmarked ? "❤️ 찜하기에 성공하였습니다." : "💔 찜 목록에서 삭제되었습니다.";
+      showToast(msg);
       setIsBookmarked(!isBookmarked);
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        alert(error.response.data); // 관리자 계정 거부 메시지 출력
+        alert(error.response.data);
       } else {
         alert("북마크 처리 중 오류가 발생했습니다.");
       }
@@ -121,7 +128,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
 
   return (
     <div className="detail-container">
-      {/* 뒤로가기 버튼 누르면 ID를 null로 만들어 리스트로 돌아감 */}
       <button className="back-btn" onClick={() => setSelectedGameId(null)}>
         <ArrowLeft size={20} /> 목록으로 돌아가기
       </button>
@@ -145,7 +151,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
               {game.rating ? Math.round(game.rating) : '평점 없음'} / 100
             </div>
 
-            {/* 💡 북마크 버튼을 별점 옆으로 이동 및 사이즈 최적화 */}
             <button 
               onClick={handleToggleBookmark}
               style={{
@@ -172,13 +177,11 @@ function GameDetail({ gameId, setSelectedGameId }) {
         </div>
       </div>
 
-      {/* 💡 미디어 (트레일러 & 스크린샷) 영역 */}
       <hr style={{border: '0', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '40px 0 20px 0'}} />
       
       <div className="media-section">
         <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>미디어 (트레일러 및 스크린샷)</h2>
         
-        {/* 1. 트레일러 영상이 있을 경우 렌더링 */}
         {game.videoId && (
           <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, marginBottom: '20px' }}>
             <iframe
@@ -192,7 +195,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
           </div>
         )}
 
-        {/* 2. 스크린샷 이미지들이 있을 경우 렌더링 */}
         {game.screenshots && game.screenshots.length > 0 && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
             {game.screenshots.map((url, index) => (
@@ -207,7 +209,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
           </div>
         )}
         
-        {/* 3. 트레일러도 없고 스크린샷도 없을 경우 표시할 기본 화면 */}
         {!game.videoId && (!game.screenshots || game.screenshots.length === 0) && (
           <div style={{ padding: '40px', textAlign: 'center', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
             <p style={{ color: '#9ca3af', margin: 0 }}>등록된 미디어 정보가 없습니다.</p>
@@ -215,7 +216,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
         )}
       </div>
 
-      {/* 💡 스크린샷 확대 모달 (라이트박스) */}
       {selectedImageIndex !== null && (
         <div 
           style={{
@@ -225,7 +225,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
           }}
           onClick={() => setSelectedImageIndex(null)}
         >
-          {/* 닫기 버튼 */}
           <button 
             style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', padding: '8px' }}
             onClick={() => setSelectedImageIndex(null)}
@@ -234,7 +233,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
             <X size={36} />
           </button>
 
-          {/* 이전 버튼 */}
           <button
             style={{ position: 'absolute', left: '24px', background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', padding: '16px', borderRadius: '50%' }}
             onClick={(e) => { e.stopPropagation(); setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : game.screenshots.length - 1)); }}
@@ -249,7 +247,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
             onClick={(e) => e.stopPropagation()}
           />
 
-          {/* 다음 버튼 */}
           <button
             style={{ position: 'absolute', right: '24px', background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', padding: '16px', borderRadius: '50%' }}
             onClick={(e) => { e.stopPropagation(); setSelectedImageIndex((prev) => (prev < game.screenshots.length - 1 ? prev + 1 : 0)); }}
@@ -257,6 +254,38 @@ function GameDetail({ gameId, setSelectedGameId }) {
             <ChevronRight size={36} />
           </button>
         </div>
+      )}
+
+      {toastMessage && (
+        <>
+          <style>
+            {`
+              @keyframes toastSlideInOut {
+                0% { opacity: 0; transform: translateY(20px); }
+                10% { opacity: 1; transform: translateY(0); }
+                90% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(20px); }
+              }
+            `}
+          </style>
+        <div style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          backgroundColor: '#1f2937',
+          border: '1px solid #374151',
+          color: '#f3f4f6',
+          padding: '16px 24px',
+          borderRadius: '12px',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+          zIndex: 10000,
+          fontSize: '16px',
+            fontWeight: '600',
+            animation: 'toastSlideInOut 3s ease-in-out forwards'
+        }}>
+          {toastMessage}
+        </div>
+        </>
       )}
     </div>
   )

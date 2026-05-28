@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Search, Flame, Target } from 'lucide-react';
-import './SearchPage.css'; // 🌟 분리한 CSS 스타일 시트 임포트 완료!
 import GameDetail from './GameDetail';
+import './SearchPage.css';
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState('');
@@ -11,17 +11,25 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedGameId, setSelectedGameId] = useState(null);
 
-  // 유명 명작 게임 추천 리스트 (누르면 영어 본문 매핑 쿼리 작동)
+  useEffect(() => {
+    if (!selectedGameId) {
+      const savedPos = sessionStorage.getItem('scroll_SearchPage');
+      if (savedPos) {
+        setTimeout(() => window.scrollTo(0, parseInt(savedPos, 10)), 10);
+        sessionStorage.removeItem('scroll_SearchPage');
+      }
+    }
+  }, [selectedGameId]);
+
   const famousSeries = [
-    { name: '마리오', query: 'Mario', bg: 'linear-gradient(to right, #FF1626, #cc111e)' }, // 닌텐도 레드
+    { name: '마리오', query: 'Mario', bg: 'linear-gradient(to right, #FF1626, #cc111e)' },
     { name: '젤다의 전설', query: 'Zelda', bg: 'linear-gradient(to right, #FF1626, #cc111e)' },
     { name: '포켓몬', query: 'Pokemon', bg: 'linear-gradient(to right, #FF1626, #cc111e)' },
-    { name: 'GTA', query: 'Grand Theft Auto', bg: 'linear-gradient(to right, #0072FF, #0056cc)' }, // 플레이스테이션 블루
+    { name: 'GTA', query: 'Grand Theft Auto', bg: 'linear-gradient(to right, #0072FF, #0056cc)' },
     { name: '엘든링', query: 'Elden Ring', bg: 'linear-gradient(to right, #0072FF, #0056cc)' },
     { name: '사이버펑크', query: 'Cyberpunk', bg: 'linear-gradient(to right, #0072FF, #0056cc)' }
   ];
 
-  // 최근 검색어 기록 불러오기 (DB 연동)
   const fetchRecentSearches = async () => {
     try {
       const res = await axios.get('http://localhost:8080/api/search/history');
@@ -35,7 +43,6 @@ const SearchPage = () => {
     fetchRecentSearches();
   }, []);
 
-  // 검색 기동 핸들러
   const handleSearch = async (searchQuery) => {
     if (!searchQuery.trim()) return;
     setLoading(true);
@@ -43,7 +50,7 @@ const SearchPage = () => {
       const res = await axios.get(`http://localhost:8080/api/search/games?keyword=${searchQuery}`);
       setSearchResults(res.data);
       setKeyword(searchQuery);
-      fetchRecentSearches(); // 최근 검색어 목록 갱신
+      fetchRecentSearches();
     } catch (err) {
       console.error('게임 검색 실패', err);
     } finally {
@@ -57,9 +64,8 @@ const SearchPage = () => {
     }
   };
 
-  // 최근 검색어 개별 삭제 핸들러 (DB 저장소 반영)
   const handleDeleteHistory = async (id, e) => {
-    e.stopPropagation(); // 칩 클릭 이벤트 버블링 차단
+    e.stopPropagation();
     try {
       await axios.delete(`http://localhost:8080/api/search/history/${id}`);
       fetchRecentSearches();
@@ -68,14 +74,12 @@ const SearchPage = () => {
     }
   };
 
-  // 게임 상세페이지 전환 로직
   if (selectedGameId) {
     return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
   }
 
   return (
     <div className="search-container">
-      {/* 1. 검색 입력 영역 */}
       <div className="search-input-wrapper">
         <input
           type="text"
@@ -90,7 +94,6 @@ const SearchPage = () => {
         </button>
       </div>
 
-      {/* 2. 최근 검색어 리스트 구역 (저장 및 삭제 형식) */}
       {recentSearches.length > 0 && (
         <div className="recent-search-wrapper">
           <span className="recent-title">최근 검색어:</span>
@@ -112,7 +115,6 @@ const SearchPage = () => {
         </div>
       )}
 
-      {/* 3. 명작 추천 시리즈 버튼 형식 구역 */}
       <div className="famous-wrapper">
         <div className="famous-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Flame size={18} color="#E5E7EB" />
@@ -132,7 +134,6 @@ const SearchPage = () => {
         </div>
       </div>
 
-      {/* 4. 검색 결과 노출 그리드 구역 */}
       <div style={{ minHeight: '500px' }}>
         <div className="result-title" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -148,7 +149,10 @@ const SearchPage = () => {
               <div 
                 key={game.id} 
                 className="search-result-card" 
-                onClick={() => setSelectedGameId(game.id)}
+                onClick={() => {
+                  sessionStorage.setItem('scroll_SearchPage', window.scrollY);
+                  setSelectedGameId(game.id);
+                }}
                 style={{ cursor: 'pointer' }}
               >
                 <img
@@ -158,7 +162,7 @@ const SearchPage = () => {
                 />
                 <div className="search-result-info">
                   <h4 className="search-result-title">{game.title}</h4>
-                  <div className="search-result-rating">⭐ 평점: {game.rating ? game.rating.toFixed(1) : '无'}</div>
+                  <div className="search-result-rating">⭐ 평점: {game.rating ? game.rating.toFixed(1) : '무'}</div>
                   <p className="search-result-summary">{game.summary}</p>
                 </div>
               </div>

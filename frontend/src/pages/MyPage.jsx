@@ -1,6 +1,6 @@
-import React from 'react'
-import { Shield, Heart } from 'lucide-react'
-import './auth/MyPage.css' 
+import React from 'react';
+import { Shield } from 'lucide-react';
+import './auth/MyPage.css';
 
 function MyPage({ user, handleLogout, setActiveTab }) {
   if (!user) {
@@ -43,7 +43,6 @@ function MyPage({ user, handleLogout, setActiveTab }) {
           </div>
         </div>
 
-        {/* 👑 관리자 전용 대시보드 버튼 */}
         {user?.role === 'ROLE_ADMIN' && (
           <button 
             className="auth-btn" 
@@ -63,7 +62,6 @@ function MyPage({ user, handleLogout, setActiveTab }) {
           </button>
         )}
 
-        {/* 🌟 일반 유저 전용: 찜 목록 이동 버튼 (로그아웃 버튼 바로 위) */}
         {user?.role === 'ROLE_USER' && (
           <button 
             className="auth-btn" 
@@ -79,17 +77,16 @@ function MyPage({ user, handleLogout, setActiveTab }) {
             }}
             onClick={() => setActiveTab('BOOKMARKS')}
           >
-            <Heart size={18} fill="#ef4444" color="#ef4444" /> 내 찜 목록 보러가기
+          내 찜 목록 보러가기
           </button>
         )}
 
-        {/* 공통: 로그아웃 버튼 */}
         <button className="logout-btn" onClick={handleLogout}>
           로그아웃
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default MyPage
+export default MyPage;

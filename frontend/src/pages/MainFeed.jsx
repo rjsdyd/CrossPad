@@ -1,31 +1,40 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import GameDetail from './GameDetail'
-import './MainFeed.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import GameDetail from './GameDetail';
+import './MainFeed.css';
 
-function MainFeed({ activeTab, user }) {
-  const [games, setGames] = useState([])
-  const [selectedGameId, setSelectedGameId] = useState(null)
-  const [loading, setLoading] = useState(false)
+function MainFeed({ activeTab }) {
+  const [games, setGames] = useState([]);
+  const [selectedGameId, setSelectedGameId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // 탭(플랫폼)이 변경되면 선택된 게임 상태를 초기화하여 목록 화면으로 돌아옵니다.
-    setSelectedGameId(null)
-    setLoading(true) // 데이터 호출 시작 시 이전 카드를 비우고 로딩 상태 켜기
+    if (!selectedGameId) {
+      const savedPos = sessionStorage.getItem('scroll_MainFeed');
+      if (savedPos) {
+        setTimeout(() => window.scrollTo(0, parseInt(savedPos, 10)), 10);
+        sessionStorage.removeItem('scroll_MainFeed');
+      }
+    }
+  }, [selectedGameId]);
+
+  useEffect(() => {
+    setSelectedGameId(null);
+    setLoading(true);
 
     axios.get(`http://localhost:8080/api/games?platform=${activeTab}`)
       .then(response => {
-        setGames(response.data)
-        setLoading(false) // 호출 완료 시 로딩 끄기
+        setGames(response.data);
+        setLoading(false);
       })
       .catch(error => {
-        console.error("데이터 가져오기 실패:", error)
-        setLoading(false)
-      })
-  }, [activeTab])
+        console.error("데이터 가져오기 실패:", error);
+        setLoading(false);
+      });
+  }, [activeTab]);
 
   if (selectedGameId) {
-    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
   }
 
   return (
@@ -46,14 +55,17 @@ function MainFeed({ activeTab, user }) {
       ) : (
         <div className="game-grid">
           {games.map((game) => (
-            <div key={game.id} className="game-card" onClick={() => setSelectedGameId(game.id)} style={{ cursor: 'pointer' }}>
+            <div key={game.id} className="game-card" onClick={() => {
+              sessionStorage.setItem('scroll_MainFeed', window.scrollY);
+              setSelectedGameId(game.id);
+            }} style={{ cursor: 'pointer' }}>
               
               <div className="game-image-wrapper">
                 <div className="game-image-overlay"></div>
                 <img 
-                  src={game.coverUrl ? game.coverUrl.replace('t_thumb', 't_cover_big') : 'https://via.placeholder.com/300x400?text=No+Image'} 
+                  src={game.coverUrl ? game.coverUrl.replace('t_thumb', 't_cover_big') : 'https://via.placeholder.com/300x400?text=No+Image'}
                   alt={game.title} 
-                  loading="lazy" /* 💡 브라우저 과부하 방지: 화면에 보일 때만 이미지를 로딩합니다 */
+                  loading="lazy"
                 />
               </div>
               
@@ -77,7 +89,7 @@ function MainFeed({ activeTab, user }) {
       )}
       
     </div>
-  )
+  );
 }
 
-export default MainFeed
+export default MainFeed;

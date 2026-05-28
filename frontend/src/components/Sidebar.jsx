@@ -1,9 +1,8 @@
-import { useState } from 'react'
-// 🌟 lucide-react에서 랭킹판에 딱 어울리는 'Trophy(트로피)' 아이콘을 추가로 땡겨옵니다!
-import { Gamepad2, Monitor, Calendar, Search, Menu, User, Trophy } from 'lucide-react'
+import { useState } from 'react';
+import { Gamepad2, Monitor, Calendar, Search, Menu, User, Trophy } from 'lucide-react';
 
 function Sidebar({ activeTab, setActiveTab, user }) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
@@ -12,7 +11,7 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           <Menu size={24} />
         </button>
         {isOpen && (
-          <h1 className="sidebar-title" onClick={() => setActiveTab('NINTENDO')} style={{cursor:'pointer'}}>CrossPad</h1>
+          <h1 className="sidebar-title" onClick={() => setActiveTab('NINTENDO')} style={{ cursor: 'pointer' }}>CrossPad</h1>
         )}
       </div>
       
@@ -31,7 +30,6 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           <Monitor size={24} style={{ minWidth: '24px' }} /> {isOpen && <span>플레이스테이션</span>}
         </button>
 
-        {/* 🏆 [명예의 전당 랭킹] 메뉴 버튼을 닌텐도/플스 바로 밑에 안착시켰습니다! */}
         <button 
           onClick={() => setActiveTab('RANKING')}
           className={`nav-btn ${activeTab === 'RANKING' ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}
@@ -63,8 +61,41 @@ function Sidebar({ activeTab, setActiveTab, user }) {
           {isOpen && <span>마이페이지</span>}
         </button>
       </nav>
+
+        {isOpen && (
+          <div 
+            className="sidebar-footer" 
+            style={{ 
+              marginTop: 'auto', 
+              fontSize: '12px', 
+              color: '#9ca3af', 
+              display: 'flex', 
+              gap: '12px', 
+              justifyContent: 'center',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <span 
+              style={{ cursor: 'pointer' }}
+              onMouseEnter={(e) => e.target.style.color = '#e5e7eb'}
+              onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
+              onClick={() => setActiveTab('TERMS')}
+            >
+              이용약관
+            </span>
+            <span>|</span>
+            <span 
+              style={{ cursor: 'pointer' }}
+              onMouseEnter={(e) => e.target.style.color = '#e5e7eb'}
+              onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
+              onClick={() => setActiveTab('PRIVACY')}
+            >
+              개인정보처리방침
+            </span>
+          </div>
+        )}
     </aside>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

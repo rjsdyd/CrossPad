@@ -11,23 +11,18 @@ public class CrosspadBackendApplication {
 
 	public static void main(String[] args) {
 
-		// 🌟 [.env 파일 직접 인입 치트키]
-		// 플러그인 버그를 우회하기 위해, 자바 프로세스가 시작되자마자 .env 파일을 직접 읽어 시스템 변수에 꽂아버립니다.
 		try {
 			File envFile = new File(".env");
 			if (envFile.exists()) {
 				List<String> lines = Files.readAllLines(envFile.toPath());
 				for (String line : lines) {
 					String trimmed = line.trim();
-					// 빈 줄이거나 주석(#)이면 패스
 					if (trimmed.isEmpty() || trimmed.startsWith("#")) continue;
 
-					// KEY=VALUE 형태로 쪼개기
 					String[] parts = trimmed.split("=", 2);
 					if (parts.length == 2) {
 						String key = parts[0].trim();
 						String value = parts[1].trim();
-						// 시스템 프로퍼티에 등록하여 application.yaml에서 ${}로 읽을 수 있게 만듭니다.
 						System.setProperty(key, value);
 					}
 				}

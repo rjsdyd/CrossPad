@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './RankingPage.css';
 import GameDetail from './GameDetail';
+import './RankingPage.css';
 
 const RankingPage = () => {
     const [rankingGames, setRankingGames] = useState([]);
@@ -10,7 +10,16 @@ const RankingPage = () => {
     const [filter, setFilter] = useState('ALL');
 
     useEffect(() => {
-        // 백엔드 평점 랭킹 API 호출
+        if (!selectedGameId) {
+            const savedPos = sessionStorage.getItem('scroll_RankingPage');
+            if (savedPos) {
+                setTimeout(() => window.scrollTo(0, parseInt(savedPos, 10)), 10);
+                sessionStorage.removeItem('scroll_RankingPage');
+            }
+        }
+    }, [selectedGameId]);
+
+    useEffect(() => {
         axios.get('http://localhost:8080/api/games/ranking')
             .then(response => {
                 setRankingGames(response.data);
@@ -30,7 +39,6 @@ const RankingPage = () => {
         return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
     }
 
-    // 💡 선택된 플랫폼 필터에 따라 랭킹 리스트를 필터링합니다.
     const filteredGames = rankingGames.filter(game => {
         if (filter === 'ALL') return true;
         return game.platform === filter;
@@ -40,7 +48,6 @@ const RankingPage = () => {
         <div className="ranking-container">
             <h1 className="ranking-title">명예의 전당</h1>
 
-            {/* 💡 플랫폼 필터링 버튼 구역 */}
             <div className="ranking-filters">
                 <button 
                     className={`filter-btn ${filter === 'ALL' ? 'active-all' : ''}`}
@@ -78,10 +85,12 @@ const RankingPage = () => {
                             <tr 
                                 key={game.id} 
                                 className="ranking-row"
-                                onClick={() => setSelectedGameId(game.id)}
+                                onClick={() => {
+                                    sessionStorage.setItem('scroll_RankingPage', window.scrollY);
+                                    setSelectedGameId(game.id);
+                                }}
                                 style={{ cursor: 'pointer' }}
                             >
-                                {/* 순위 국룰 디자인 포인트 (1, 2, 3등 강조) */}
                                 <td className={`td-rank rank-${index + 1}`}>
                                     {index + 1 === 1 ? '🥇' : index + 1 === 2 ? '🥈' : index + 1 === 3 ? '🥉' : index + 1}
                                 </td>
@@ -90,7 +99,7 @@ const RankingPage = () => {
                                         src={game.coverUrl} 
                                         alt={game.title} 
                                         className="rank-game-cover" 
-                                        loading="lazy" /* 💡 렌더링 성능 최적화 및 딜레이 방지 */
+                                        loading="lazy"
                                     />
                                 </td>
                                 <td className="td-title">
@@ -98,7 +107,6 @@ const RankingPage = () => {
                                 </td>
                                 <td className="td-platform">
                                     <span className={`platform-badge ${game.platform.toLowerCase()}`}>
-                                        {/* 💡 기종 영문을 한글로 변환하여 렌더링합니다. */}
                                         {game.platform === 'NINTENDO' ? '닌텐도 스위치' : game.platform === 'PLAYSTATION' ? '플레이스테이션' : game.platform}
                                     </span>
                                 </td>

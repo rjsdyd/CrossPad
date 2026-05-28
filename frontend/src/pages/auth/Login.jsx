@@ -1,37 +1,33 @@
-import { useState } from 'react'
-import axios from 'axios'
-import './Signup.css'
+import { useState } from 'react';
+import axios from 'axios';
+import './Signup.css';
 
-function Login({ setActiveTab, onLoginSuccess }) { // 💡 로그인 성공 핸들러 추가받음
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('') // 💡 에러 메시지 상태 추가
+function Login({ setActiveTab, onLoginSuccess }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault()
-    setErrorMessage('') // 💡 로그인 시도 시 기존 에러 메시지 초기화
+    e.preventDefault();
+    setErrorMessage('');
     
-    // 💡 백엔드 로그인 API 호출
     axios.post('http://localhost:8080/api/members/login', {
       email,
       password
     })
     .then(response => {
-      // 💡 [디버깅 코드 추가] 백엔드가 진짜 뭘 넘겨줬는지 F12 콘솔창에서 확인!
       console.log("백엔드가 보내준 로그인 데이터:", response.data);
       
       alert(`${response.data.nickname}님, 로그인 성공!`);
       onLoginSuccess(response.data); 
     })
     .catch(error => {
-      // 💡 로그인 실패 시 에러 메시지 세팅
-      setErrorMessage('아이디 또는 비밀번호가 틀렸습니다.')
-    })
-  }
+      setErrorMessage('아이디 또는 비밀번호가 틀렸습니다.');
+    });
+  };
 
   return (
     <div className="auth-container">
-      {/* 💡 CSS 파일 수정 없이 바로 적용되도록 스타일 내장 */}
       <style>
         {`
           .login-error-msg {
@@ -75,7 +71,6 @@ function Login({ setActiveTab, onLoginSuccess }) { // 💡 로그인 성공 핸�
             />
           </div>
 
-          {/* 💡 에러 메시지가 있을 때만 인풋창 아래에 렌더링 */}
           {errorMessage && <p className="login-error-msg">{errorMessage}</p>}
 
           <button type="submit" className="auth-btn">
@@ -93,7 +88,7 @@ function Login({ setActiveTab, onLoginSuccess }) { // 💡 로그인 성공 핸�
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

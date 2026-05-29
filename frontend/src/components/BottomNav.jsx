@@ -1,3 +1,4 @@
+import './BottomNav.css'
 import { Gamepad2, Monitor, Search, User } from 'lucide-react'
 
 function BottomNav({ activeTab, setActiveTab }) {

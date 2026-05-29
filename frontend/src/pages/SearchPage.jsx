@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Search, Flame, Target } from 'lucide-react';
 import GameDetail from './GameDetail';
 import './SearchPage.css';
+import SkeletonCard from '../components/SkeletonCard'; // 🌟 스켈레톤 컴포넌트 불러오기
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState('');
@@ -40,6 +41,7 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line
     fetchRecentSearches();
   }, []);
 
@@ -134,17 +136,25 @@ const SearchPage = () => {
         </div>
       </div>
 
+      {/* 🌟 4. 검색 결과 그리드 (스켈레톤 로딩 장착 완료) */}
       <div style={{ minHeight: '500px' }}>
         <div className="result-title" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Target size={24} color="#E5E7EB" />
-            검색 결과 ({searchResults.length})
+            검색 결과 {(!loading && searchResults.length > 0) && `(${searchResults.length})`}
           </span>
-          {loading && <span style={{ fontSize: '15px', color: '#a855f7', fontWeight: 'normal' }}>데이터 검색 중...</span>}
         </div>
 
-        {searchResults.length > 0 ? (
-          <div className="result-grid" style={{ opacity: loading ? 0.5 : 1, pointerEvents: loading ? 'none' : 'auto', transition: 'opacity 0.2s' }}>
+        {/* 🌟 조건 1. 로딩 중일 때: 스켈레톤 카드 6개를 렌더링 */}
+        {loading ? (
+          <div className="result-grid">
+            {Array(6).fill(0).map((_, idx) => (
+              <SkeletonCard key={`skeleton-${idx}`} />
+            ))}
+          </div>
+        ) : searchResults.length > 0 ? (
+          /* 🌟 조건 2. 로딩 완료 및 결과가 있을 때: 진짜 게임 데이터 렌더링 */
+          <div className="result-grid">
             {searchResults.map((game) => (
               <div 
                 key={game.id} 
@@ -169,7 +179,8 @@ const SearchPage = () => {
             ))}
           </div>
         ) : (
-          !loading && keyword && <div className="status-msg">검색 조건에 매칭되는 명작 게임이 데이터베이스에 없습니다. 영문 타이틀을 다시 확인해 보세요!</div>
+          /* 🌟 조건 3. 로딩 완료 및 결과가 없을 때 */
+          keyword && <div className="status-msg">검색 조건에 매칭되는 명작 게임이 데이터베이스에 없습니다. 영문 타이틀을 다시 확인해 보세요!</div>
         )}
       </div>
     </div>

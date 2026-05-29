@@ -1,0 +1,56 @@
+/* 스르륵 빛나는 애니메이션 정의 */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 뼈대 공통 클래스 (빛나는 회색 배경) */
+.skeleton-box {
+  background: #374151; /* 어두운 회색 */
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+/* 이미지 뼈대 규격 */
+.skeleton-cover {
+  width: 90px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+
+/* 텍스트 뼈대 규격 */
+.skeleton-title {
+  height: 20px;
+  width: 60%;
+  margin-bottom: 8px;
+}
+
+.skeleton-rating {
+  height: 14px;
+  width: 30%;
+  margin-bottom: 12px;
+}
+
+.skeleton-summary {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.skeleton-summary-short {
+  height: 14px;
+  width: 80%;
+}

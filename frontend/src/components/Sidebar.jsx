@@ -1,3 +1,4 @@
+import './Sidebar.css'
 import { useState } from 'react';
 import { Gamepad2, Monitor, Calendar, Search, Menu, User, Trophy } from 'lucide-react';
 
@@ -6,12 +7,12 @@ function Sidebar({ activeTab, setActiveTab, user }) {
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
-      <div className="sidebar-header">
-        <button className="menu-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
-          <Menu size={24} />
+      <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <button className="menu-toggle-btn" onClick={() => setIsOpen(!isOpen)} style={{ display: 'flex', flexShrink: 0 }}>
+          <Menu size={24} style={{ minWidth: '24px' }} />
         </button>
         {isOpen && (
-          <h1 className="sidebar-title" onClick={() => setActiveTab('NINTENDO')} style={{ cursor: 'pointer' }}>CrossPad</h1>
+          <span className="sidebar-title" onClick={() => setActiveTab('NINTENDO')} style={{ cursor: 'pointer', fontSize: '22px', fontWeight: '900', margin: 0 }}>CrossPad</span>
         )}
       </div>
       
@@ -54,7 +55,6 @@ function Sidebar({ activeTab, setActiveTab, user }) {
         <button 
           onClick={() => setActiveTab(user ? 'MYPAGE' : 'LOGIN')}
           className={`nav-btn ${['LOGIN', 'SIGNUP', 'MYPAGE', 'ADMIN'].includes(activeTab) ? 'nav-btn-mypage' : 'nav-btn-inactive'}`}
-          style={{ marginTop: 'auto' }}
           title="마이페이지"
         >
           <User size={24} style={{ minWidth: '24px' }} /> 
@@ -62,38 +62,42 @@ function Sidebar({ activeTab, setActiveTab, user }) {
         </button>
       </nav>
 
-        {isOpen && (
-          <div 
-            className="sidebar-footer" 
-            style={{ 
-              marginTop: 'auto', 
-              fontSize: '12px', 
-              color: '#9ca3af', 
-              display: 'flex', 
-              gap: '12px', 
-              justifyContent: 'center',
-              whiteSpace: 'nowrap'
-            }}
+      {isOpen && (
+        <div 
+          className="sidebar-footer" 
+          style={{ 
+            margin: 'auto auto 0', 
+            paddingBottom: '24px',
+            fontSize: '12px', 
+            color: '#9ca3af', 
+            display: 'flex', 
+            gap: '12px', 
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            textAlign: 'center',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <span 
+            style={{ cursor: 'pointer' }}
+            onMouseEnter={(e) => e.target.style.color = 'var(--text-color)'}
+            onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
+            onClick={() => setActiveTab('TERMS')}
           >
-            <span 
-              style={{ cursor: 'pointer' }}
-              onMouseEnter={(e) => e.target.style.color = '#e5e7eb'}
-              onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
-              onClick={() => setActiveTab('TERMS')}
-            >
-              이용약관
-            </span>
-            <span>|</span>
-            <span 
-              style={{ cursor: 'pointer' }}
-              onMouseEnter={(e) => e.target.style.color = '#e5e7eb'}
-              onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
-              onClick={() => setActiveTab('PRIVACY')}
-            >
-              개인정보처리방침
-            </span>
-          </div>
-        )}
+            이용약관
+          </span>
+          <span>|</span>
+          <span 
+            style={{ cursor: 'pointer' }}
+            onMouseEnter={(e) => e.target.style.color = 'var(--text-color)'}
+            onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
+            onClick={() => setActiveTab('PRIVACY')}
+          >
+            개인정보처리방침
+          </span>
+        </div>
+      )}
     </aside>
   );
 }

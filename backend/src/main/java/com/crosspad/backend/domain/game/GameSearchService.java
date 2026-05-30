@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors; // 추가
 
 @Slf4j
 @Service
@@ -80,8 +81,8 @@ public class GameSearchService {
         headers.set("Authorization", "Bearer " + token);
         headers.set("Accept", "application/json");
 
-        // platforms 배열 데이터를 추가로 땡겨오도록 fields 쿼리문 고도화
-        String queryBody = "fields name, summary, cover.url, rating, platforms, videos.video_id, screenshots.url; " +
+        // 💡 [수정] queryBody에 genres.name 추가
+        String queryBody = "fields name, summary, cover.url, rating, platforms, genres.name, videos.video_id, screenshots.url; " +
                 "where name ~ *\"" + keyword + "\"* & rating != null & cover.url != null; " +
                 "sort rating desc; " +
                 "limit 10;";
@@ -119,6 +120,14 @@ public class GameSearchService {
                     }
                 }
 
+                // 💡 [추가] 장르 추출 (여러 장르를 콤마로 연결)
+                String genreString = null;
+                if (dto.getGenres() != null && !dto.getGenres().isEmpty()) {
+                    genreString = dto.getGenres().stream()
+                            .map(IgdbGameDto.Genre::getName) // DTO에 Genre 내부 클래스와 getName()이 있다고 가정
+                            .collect(Collectors.joining(", "));
+                }
+
                 String rawSummary = dto.getSummary();
                 if (rawSummary == null || rawSummary.trim().isEmpty()) {
                     rawSummary = "상세 줄거리 정보가 제공되지 않는 게임입니다.";
@@ -148,6 +157,7 @@ public class GameSearchService {
                         .coverUrl(coverUrl)
                         .rating(dto.getRating())
                         .platform(calculatedPlatform) // 🌟 동적 매핑된 플랫폼 문자열 주입!
+                        .genre(genreString) // 💡 [추가] 장르 저장
                         .videoId(videoId)
                         .screenshots(screenshotUrls)
                         .build();

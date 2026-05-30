@@ -16,6 +16,7 @@ public class GameController {
 
     private final GameRepository gameRepository;
     private final GameUpcomingService gameUpcomingService;
+    private final GameService gameService;
 
     /**
      * 게임 목록 조회 API
@@ -68,5 +69,12 @@ public class GameController {
     public ResponseEntity<List<Game>> getUpcomingGames() {
         List<Game> upcomingList = gameUpcomingService.getOrCreateUpcomingGames();
         return ResponseEntity.ok(upcomingList);
+    }
+
+    @GetMapping("/migrate-genres")
+    public ResponseEntity<String> migrateGenres() {
+        // gameService에 migrateEmptyGenres() 메서드가 추가되어 있어야 합니다!
+        int resultCount = gameService.migrateEmptyGenres();
+        return ResponseEntity.ok("성공적으로 " + resultCount + "개의 게임 데이터 장르 마이그레이션을 완료했습니다.");
     }
 }

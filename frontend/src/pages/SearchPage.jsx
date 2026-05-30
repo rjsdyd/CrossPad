@@ -5,7 +5,7 @@ import GameDetail from './GameDetail';
 import './SearchPage.css';
 import SkeletonCard from '../components/SkeletonCard'; // 🌟 스켈레톤 컴포넌트 불러오기
 
-const SearchPage = () => {
+const SearchPage = ({ user }) => {
   const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
@@ -77,7 +77,7 @@ const SearchPage = () => {
   };
 
   if (selectedGameId) {
-    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} user={user} />;
   }
 
   return (

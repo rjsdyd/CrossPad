@@ -3,7 +3,7 @@ import axios from 'axios';
 import GameDetail from './GameDetail';
 import './RankingPage.css';
 
-const RankingPage = () => {
+const RankingPage = ({ user }) => {
     const [rankingGames, setRankingGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedGameId, setSelectedGameId] = useState(null);
@@ -36,7 +36,7 @@ const RankingPage = () => {
     }
 
     if (selectedGameId) {
-        return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} user={user} />;
     }
 
     const filteredGames = rankingGames.filter(game => {

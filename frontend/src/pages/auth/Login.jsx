@@ -16,11 +16,15 @@ function Login({ setActiveTab, onLoginSuccess }) {
       password
     })
     .then(response => {
-      console.log("백엔드가 보내준 로그인 데이터:", response.data);
-      
-      alert(`${response.data.nickname}님, 로그인 성공!`);
-      onLoginSuccess(response.data); 
-    })
+        const memberData = response.data;
+        console.log("백엔드가 보내준 로그인 데이터:", memberData);
+        
+        // 💡 핵심: 브라우저에 로그인 정보를 저장합니다.
+        localStorage.setItem('member', JSON.stringify(memberData));
+        
+        alert(`${memberData.nickname}님, 로그인 성공!`);
+        onLoginSuccess(memberData); 
+      })
     .catch(error => {
       setErrorMessage('아이디 또는 비밀번호가 틀렸습니다.');
     });

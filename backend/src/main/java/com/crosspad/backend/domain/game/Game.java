@@ -30,10 +30,13 @@ public class Game {
     private Double rating;
     private String platform;
 
-    // 💡 [추가] 유튜브 트레일러 비디오 ID 컬럼
+    // 💡 [추가] 장르 필드 추가 (DB 초기화 없이 추가 가능)
+    private String genre;
+
+    // 유튜브 트레일러 비디오 ID 컬럼
     private String videoId;
 
-    // 💡 [추가] 스크린샷 URL 목록 저장용 1:N 매핑 테이블 설정
+    // 스크린샷 URL 목록 저장용 1:N 매핑 테이블 설정
     @ElementCollection
     @CollectionTable(name = "game_screenshots", joinColumns = @JoinColumn(name = "game_id"))
     @Column(name = "screenshot_url")

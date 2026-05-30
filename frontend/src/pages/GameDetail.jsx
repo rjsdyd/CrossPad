@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { ArrowLeft, Star, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import './GameDetail.css'
+import ReviewSection from '../components/ReviewSection';
 
 function ExpandableSummary({ text }) {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -52,7 +53,7 @@ function ExpandableSummary({ text }) {
   )
 }
 
-function GameDetail({ gameId, setSelectedGameId }) {
+function GameDetail({ gameId, setSelectedGameId, user }) {
   const [game, setGame] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
@@ -70,9 +71,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const userStr = localStorage.getItem('user')
-    const user = userStr ? JSON.parse(userStr) : null
 
     axios.get(`http://localhost:8080/api/games/${gameId}`)
       .then(response => {
@@ -98,9 +96,6 @@ function GameDetail({ gameId, setSelectedGameId }) {
 
   const handleToggleBookmark = async (e) => {
     e.stopPropagation();
-
-    const userStr = localStorage.getItem('user');
-    const user = userStr ? JSON.parse(userStr) : null;
 
     if (!user || !user.id) {
       alert("로그인이 필요한 기능입니다.");
@@ -178,6 +173,21 @@ function GameDetail({ gameId, setSelectedGameId }) {
       </div>
 
       <hr style={{border: '0', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '40px 0 20px 0'}} />
+
+      {game.genre ? (
+        <div className="genre-section">
+          {game.genre.split(',').map((g, index) => (
+            <span key={index} className="genre-badge">
+              #{g.trim()}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      <ReviewSection 
+        gameId={game.id} 
+      currentMember={user} 
+      />
       
       <div className="media-section">
         <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>미디어 (트레일러 및 스크린샷)</h2>

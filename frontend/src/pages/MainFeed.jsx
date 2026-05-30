@@ -3,7 +3,7 @@ import axios from 'axios';
 import GameDetail from './GameDetail';
 import './MainFeed.css';
 
-function MainFeed({ activeTab }) {
+function MainFeed({ activeTab, user }) {
   const [games, setGames] = useState([]);
   const [selectedGameId, setSelectedGameId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ function MainFeed({ activeTab }) {
   }, [activeTab]);
 
   if (selectedGameId) {
-    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} user={user} />;
   }
 
   return (

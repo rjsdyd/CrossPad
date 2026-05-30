@@ -80,7 +80,7 @@ function BookmarkPage({ user }) {
   });
 
   if (selectedGameId) {
-    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} user={user} />;
   }
 
   return (

@@ -1,0 +1,427 @@
+/* ==========================================
+   1. 전체 섹션 외곽 및 여백 제어
+   ========================================== */
+.review-section-wrapper {
+  padding-top: 40px;
+}
+
+.review-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #f3f4f6;
+}
+
+/* ==========================================
+   2. 핵심 구조: 좌우 분할 레이아웃 (50:50 반반)
+   ========================================== */
+.review-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 완벽한 반반 비율 설정 */
+  gap: 40px; /* 좌우 패널 사이의 간격 */
+  align-items: start; /* sticky 고정을 유지하기 위한 필수 설정 */
+}
+
+/* 📱 반응형 분할: 화면 폭이 900px 이하일 때는 세로로 1열 정렬 */
+@media (max-width: 900px) {
+  .review-split-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .review-left-panel {
+    position: static !important; /* 모바일 환경에서는 따라오는 고정 해제 */
+  }
+}
+
+/* ==========================================
+   3. ⬅️ 왼쪽 패널 (작성 폼 / 가드 카드 구역)
+   ========================================== */
+.review-left-panel {
+  position: sticky;
+  top: 40px; /* 스크롤을 내릴 때 상단 브라우저 모서리와의 여백 */
+  align-self: start;
+}
+
+/* 카드 공통 배경 형태 스타일 */
+.review-form-card, .already-reviewed-card {
+  background-color: #1e1e22;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  margin-bottom: 40px;
+}
+
+.review-form-card h3 {
+  font-size: 18px;
+  margin-bottom: 18px;
+  color: #e5e7eb;
+}
+
+/* 별점(Star) 컴포넌트 인풋 UI 크기 및 색상 관리 */
+.star-rating-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.star-icon-btn {
+  color: #374151; /* 비활성화 혹은 0점 기본값일 때의 칙칙한 별 색상 */
+  cursor: pointer;
+  transition: transform 0.1s ease, color 0.1s ease;
+}
+
+.star-icon-btn:hover {
+  transform: scale(1.15); /* 마우스 올렸을 때 살짝 커지는 애니메이션 */
+}
+
+.star-icon-btn.active {
+  color: #fbbf24; /* 선택된 노란색 별점 상태 */
+}
+
+.rating-number-display {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* 글자 수 카운터(Counter) 얹기 위한 텍스트필드 래퍼 */
+.textarea-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.review-textarea {
+  width: 100%;
+  background-color: #121214;
+  border: 1px solid #374151;
+  color: white;
+  border-radius: 8px;
+  padding: 14px;
+  padding-bottom: 36px; /* 바닥의 글자 수 카운터 텍스트와 겹침 방지 여백 */
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: none; /* 유저가 마우스로 마음대로 박스 찢어서 UI 깨지는 것 방어 */
+  transition: border-color 0.2s;
+}
+
+.review-textarea:focus {
+  outline: none;
+  border-color: #4f46e5; /* 포커싱되었을 때 포인트 인디고 컬러 */
+}
+
+/* 비로그인 유저 disabled 상태 전용 텍스트 필드 스타일링 */
+.review-textarea:disabled {
+  background-color: #161619;
+  border-color: #27272a;
+  color: #52525b;
+  cursor: not-allowed;
+}
+
+/* 200자 제한 우측 하단 배치 */
+.char-count {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  font-size: 12px;
+  color: #6b7280;
+  pointer-events: none; /* 드래그나 클릭 영역 방해하지 않게 차단 */
+}
+
+/* 하단 버튼 인터랙션 영역 */
+.form-action-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.review-submit-btn {
+  flex-grow: 1;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.review-submit-btn:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+.review-submit-btn:disabled {
+  background-color: #27272a;
+  color: #71717a;
+  cursor: not-allowed;
+}
+
+.review-cancel-btn {
+  background-color: #374151;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.review-cancel-btn:hover {
+  background-color: #4b5563;
+}
+
+/* 1멤버 1리뷰 가드 안내 카드 스타일 */
+.already-reviewed-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed rgba(167, 139, 250, 0.3);
+  padding: 24px;
+  background-color: rgba(124, 58, 237, 0.03);
+}
+
+.already-reviewed-card h3 {
+  font-size: 18px;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.already-reviewed-card p {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.edit-my-review-btn {
+  background-color: transparent;
+  color: #a78bfa;
+  border: 1px solid rgba(167, 139, 250, 0.6);
+  padding: 12px 20px;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-my-review-btn:hover {
+  background-color: rgba(167, 139, 250, 0.1);
+  border-color: #a78bfa;
+}
+
+/* ==========================================
+   4. ➡️ 오른쪽 패널 (리뷰 목록 스트리밍 구역)
+   ========================================== */
+.review-right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.no-reviews-msg {
+  background-color: transparent;
+  padding: 60px 24px;
+  border-radius: 12px;
+  text-align: center;
+  color: #9ca3af;
+  border: none;
+}
+
+/* 🌟 오른쪽 리뷰 목록을 하나의 큰 카드로 통합 */
+.reviews-board-card {
+  background-color: #1e1e22;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; /* 안에 내용이 적어도 카드가 너무 찌그러지지 않도록 유지 */
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card {
+  background-color: transparent;
+  padding: 16px 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 카드 사이의 가로줄 */
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.review-card:hover {
+  transform: translateY(-2px); /* 마우스 올렸을 때 카드가 붕 뜨는 미세 입체감 효과 */
+}
+
+.review-card:last-child {
+  border-bottom: none;
+}
+
+/* 내가 쓴 글(내 리뷰 카드) 전용 그라데이션 포인트 테두리 처리 */
+.review-card.my-review {
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  background: linear-gradient(145deg, rgba(124, 58, 237, 0.05) 0%, transparent 100%);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 프로필 첫 글자를 딴 원형 아바타 UI */
+.reviewer-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.reviewer-name {
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.my-badge {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: #c084fc;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.review-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: #fbbf24;
+  background-color: rgba(251, 191, 36, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* 리뷰 텍스트 본문 구역 */
+.review-content {
+  color: #d1d5db;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  white-space: pre-wrap; /* 엔터 개행 보존 처리 */
+}
+
+/* 리뷰 카드 바닥면 제어 */
+.review-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.review-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 수정 및 삭제 아이콘 버튼 구역 */
+.review-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.review-actions button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.review-actions button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.review-actions button.delete-btn:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* ==========================================
+   5. 📄 페이지네이션 UI 컨트롤
+   ========================================== */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto; /* 내용이 적어도 카드의 맨 바닥으로 밀어냄 */
+  padding-top: 24px;
+}
+
+.page-btn {
+  background-color: #374151;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #4f46e5;
+}
+
+.page-btn:disabled {
+  background-color: #1f2937;
+  color: #4b5563;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 15px;
+  font-weight: 600;
+  color: #d1d5db;
+}

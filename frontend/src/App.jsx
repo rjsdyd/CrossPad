@@ -32,7 +32,10 @@ function App() {
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem('member'); 
+    localStorage.removeItem('user');
     localStorage.removeItem('crosspad_user');
+
     setActiveTab('NINTENDO');
     alert("로그아웃 되었습니다.");
   };
@@ -42,15 +45,15 @@ function App() {
     if (activeTab === 'LOGIN') return <Login setActiveTab={setActiveTab} onLoginSuccess={handleLoginSuccess} />;
     if (activeTab === 'MYPAGE') return <MyPage user={user} handleLogout={handleLogout} setActiveTab={setActiveTab} />;
     if (activeTab === 'ADMIN') return <AdminDashboard user={user} />;
-    if (activeTab === 'SEARCH') return <SearchPage />;
-    if (activeTab === 'RANKING') return <RankingPage />;
-    if (activeTab === 'UPCOMING') return <UpcomingPage />;
+    if (activeTab === 'SEARCH') return <SearchPage user={user} />;
+    if (activeTab === 'RANKING') return <RankingPage user={user} />;
+    if (activeTab === 'UPCOMING') return <UpcomingPage user={user} />;
     if (activeTab === 'BOOKMARKS') return <BookmarkPage user={user} />;
     
     if (activeTab === 'TERMS') return <TermsOfService />;
     if (activeTab === 'PRIVACY') return <PrivacyPolicy />;
     
-    return <MainFeed activeTab={activeTab} />;
+    return <MainFeed activeTab={activeTab} user={user} />;
   };
 
   return (

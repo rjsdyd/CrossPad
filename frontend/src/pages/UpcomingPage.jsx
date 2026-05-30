@@ -3,7 +3,7 @@ import axios from 'axios';
 import GameDetail from './GameDetail';
 import './UpcomingPage.css';
 
-const UpcomingPage = () => {
+const UpcomingPage = ({ user }) => {
     const [upcomingGames, setUpcomingGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedGameId, setSelectedGameId] = useState(null);
@@ -41,7 +41,7 @@ const UpcomingPage = () => {
     }
 
     if (selectedGameId) {
-        return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} />;
+    return <GameDetail gameId={selectedGameId} setSelectedGameId={setSelectedGameId} user={user} />;
     }
 
     const filteredGames = upcomingGames.filter(game => {

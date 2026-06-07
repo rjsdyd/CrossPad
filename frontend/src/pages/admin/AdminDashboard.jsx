@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Shield } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import './AdminDashboard.css'
 
 function AdminDashboard({ user }) {
   const [members, setMembers] = useState([])
+  const navigate = useNavigate()
 
   // 1. 전체 가입 유저 목록 가져오기 (내 이메일을 파라미터로 동봉)
   const fetchMembers = () => {
@@ -63,6 +65,22 @@ function AdminDashboard({ user }) {
           관리자 제어 대시보드
         </h1>
         <p className="admin-subtitle">CrossPad 플랫폼의 전체 회원 권한 조정 및 탈퇴 관리를 총괄합니다.</p>
+      </div>
+
+      {/* 관리자 메뉴 탭 버튼 */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', margin: '20px 0 30px' }}>
+        <button 
+          onClick={() => navigate('/admin')}
+          style={{ padding: '10px 24px', backgroundColor: '#4f46e5', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          유저 관리
+        </button>
+        <button 
+          onClick={() => navigate('/admin/reports')}
+          style={{ padding: '10px 24px', backgroundColor: '#374151', color: '#E5E7EB', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          신고 목록
+        </button>
       </div>
 
       {/* 💡 모바일 환경에서 표가 찌그러지거나 잘리지 않도록 가로 스크롤 영역 추가 */}

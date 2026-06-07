@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Star, Edit2, Trash2, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, Edit2, Trash2, AlertCircle, AlertTriangle, ChevronLeft, ChevronRight } from 'lucide-react';
+import ReportModal from './ReportModal';
 import './ReviewSection.css';
 
 function ReviewSection({ gameId, currentMember }) {
@@ -9,6 +10,8 @@ function ReviewSection({ gameId, currentMember }) {
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportingReviewId, setReportingReviewId] = useState(null);
   const activeMember = currentMember;
 
   // 1. 리뷰 목록 불러오기 (GET)
@@ -154,6 +157,11 @@ function ReviewSection({ gameId, currentMember }) {
     setErrorMsg('');
   };
 
+  const handleOpenReport = (reviewId) => {
+    setReportingReviewId(reviewId);
+    setIsReportModalOpen(true);
+  };
+
   return (
     <div className="review-section-wrapper">
       <h2 className="review-title">유저 리뷰 (평균 평점: ⭐ {averageRating})</h2>
@@ -288,16 +296,25 @@ function ReviewSection({ gameId, currentMember }) {
                       {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : ''}
                     </span>
 
-                    {activeMember && review.memberId === activeMember.id && (
-                      <div className="review-actions">
-                        <button onClick={() => handleEditClick(review)} title="수정">
-                          <Edit2 size={16} />
-                        </button>
-                        <button onClick={() => handleDelete(review.id)} title="삭제" className="delete-btn">
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    )}
+                    <div className="review-actions">
+                      {activeMember && review.memberId === activeMember.id ? (
+                        <>
+                          <button onClick={() => handleEditClick(review)} title="수정">
+                            <Edit2 size={16} />
+                          </button>
+                          <button onClick={() => handleDelete(review.id)} title="삭제" className="delete-btn">
+                            <Trash2 size={16} />
+                          </button>
+                        </>
+                      ) : (
+                        /* 로그인된 상태이고, 본인 글이 아니며, 일반 유저일 경우에만 신고 버튼 노출 */
+                        activeMember && activeMember.role === 'ROLE_USER' && (
+                          <button onClick={() => handleOpenReport(review.id)} title="신고하기" style={{ color: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px' }}>
+                            <AlertTriangle size={14} /> 신고
+                          </button>
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -320,6 +337,14 @@ function ReviewSection({ gameId, currentMember }) {
         </div>
       </div>
     </div>
+
+      {/* 💡 신고하기 모달 컴포넌트 렌더링 */}
+      <ReportModal 
+        isOpen={isReportModalOpen} 
+        onClose={() => setIsReportModalOpen(false)} 
+        reviewId={reportingReviewId}
+        reporterId={activeMember?.id}
+      />
     </div>
   );
 }

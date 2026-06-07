@@ -33,3 +33,9 @@
   - 로그아웃 시 `localStorage` 항목(`member`, `user`)이 완벽하게 삭제되지 않아 발생하던 '유령 로그인(Ghost Login)' 버그 원천 차단
   - 개별 컴포넌트(`GameDetail`, `ReviewSection` 등)에서 독단적으로 `localStorage`를 참조하던 안티 패턴 제거
   - 최상위 `App.jsx`에서만 `user` 상태를 단일 관리하고, 하위 페이지 컴포넌트 전체로 Props를 전달(Top-down)하도록 리팩토링하여 상태 동기화 이슈 완벽 해결
+
+#### 2026-06-07
+- **하이브리드 라우팅 시스템 구축**:
+  - 기존 `activeTab` 기반 조건부 렌더링에 `react-router-dom`의 URL 기반 라우팅을 혼합 적용
+  - `/admin` (유저 관리), `/admin/reports` (신고 목록) 라우트 추가
+  - 관리자 페이지에서 탭(사이드바/하단 내비) 변경 시 메인 경로(`/`)로 강제 복귀 및 탭 동기화 로직 구현

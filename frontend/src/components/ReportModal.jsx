@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './ReportModal.css';
 
-const REPORT_REASONS = ['욕설', '스팸', '음란성 내용', '스포일러', '허위정보', '기타'];
+const REPORT_REASONS = ['욕설', '스팸', '음란성 내용', '스포일러', '허위정보'];
 
 function ReportModal({ isOpen, onClose, reviewId, reporterId }) {
     const [reason, setReason] = useState('');
-    const [otherContent, setOtherContent] = useState('');
+    const [content, setContent] = useState('');
 
     if (!isOpen) return null;
 
@@ -15,8 +15,8 @@ function ReportModal({ isOpen, onClose, reviewId, reporterId }) {
             alert('신고 사유를 선택해주세요.');
             return;
         }
-        if (reason === '기타' && !otherContent.trim()) {
-            alert('기타 신고 사유를 200자 내외로 작성해주세요.');
+        if (!content.trim()) {
+            alert('신고 내용을 상세히 작성해주세요.');
             return;
         }
 
@@ -26,13 +26,13 @@ function ReportModal({ isOpen, onClose, reviewId, reporterId }) {
                 reviewId,
                 reporterId,
                 reason,
-                content: reason === '기타' ? otherContent : ''
+                content: content
             });
             alert('신고가 정상적으로 접수되었습니다.');
             
             // 초기화 및 닫기
             setReason('');
-            setOtherContent('');
+            setContent('');
             onClose();
         } catch (error) {
             console.error('신고 접수 실패:', error);
@@ -59,15 +59,13 @@ function ReportModal({ isOpen, onClose, reviewId, reporterId }) {
                     ))}
                 </div>
                 
-                {reason === '기타' && (
-                    <textarea 
-                        className="report-textarea"
-                        placeholder="신고 사유를 상세히 적어주세요 (최대 200자)"
-                        maxLength={200}
-                        value={otherContent}
-                        onChange={e => setOtherContent(e.target.value)}
-                    />
-                )}
+                <textarea 
+                    className="report-textarea"
+                    placeholder="신고 내용을 상세히 작성해주세요"
+                    maxLength={200}
+                    value={content}
+                    onChange={e => setContent(e.target.value)}
+                />
 
                 <div className="report-modal-actions">
                     <button className="btn-cancel" onClick={onClose}>취소</button>

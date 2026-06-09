@@ -7,34 +7,26 @@ import './ReportListPage.css';
 function ReportListPage() {
   const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const navigate = useNavigate();
 
   const fetchReports = () => {
     axios.get('http://localhost:8080/api/reports')
-      .then(response => setReports(Array.isArray(response.data) ? response.data : []))
+      .then(response => {
+        if (Array.isArray(response.data)) {
+          // 최신순(내림차순)으로 정렬
+          const sortedReports = [...response.data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setReports(sortedReports);
+        } else {
+          setReports([]);
+        }
+      })
       .catch(error => console.error("신고 목록 로딩 실패:", error));
   };
 
   useEffect(() => {
     fetchReports();
   }, []);
-
-  const handleResolveReport = (reportId, gameId) => {
-    // 1. 프론트엔드 화면에서 카드를 즉시 제거
-    setReports(prevReports => prevReports.filter(report => report.id !== reportId));
-
-    // 2. 백엔드에 신고 처리(삭제 또는 상태 변경) 비동기 요청
-    axios.delete(`http://localhost:8080/api/reports/${reportId}`)
-      .catch(error => console.error("신고 처리 중 오류:", error));
-
-    // 3. 신고된 게임 상세 페이지로 이동 (관리자 페이지를 유지하기 위해 새 창으로 띄움)
-    if (gameId) {
-      window.open(`/game/${gameId}`, '_blank'); 
-    } else {
-      alert("처리가 완료되었습니다.");
-    }
-  };
 
   // 페이징 계산
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -95,12 +87,6 @@ function ReportListPage() {
                       "{report.content || '내용 없음'}"
                     </p>
                   </div>
-                  <button 
-                    onClick={() => handleResolveReport(report.id, report.gameId)}
-                    className="report-resolve-btn"
-                  >
-                    처리완료
-                  </button>
                 </div>
               ))}
             </div>

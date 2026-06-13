@@ -39,14 +39,7 @@ function MainFeed({ activeTab, user }) {
 
   return (
     <div className="feed-container">
-      
-      <h1 className="feed-title">
-        {activeTab === 'NINTENDO' ? (
-          <span className="text-nintendo">닌텐도 스위치</span>
-        ) : (
-          <span className="text-playstation">플레이스테이션</span>
-        )}
-      </h1>
+     
 
       {loading ? (
         <div style={{ padding: '100px 0', textAlign: 'center', color: '#9ca3af', fontSize: '18px' }}>

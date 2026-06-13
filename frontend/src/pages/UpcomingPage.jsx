@@ -35,7 +35,7 @@ const UpcomingPage = ({ user }) => {
         return (
             <div className="upcoming-loading">
                 <div className="spinner"></div>
-                <p>📅 글로벌 신작 라인업 수집 및 DeepL 번역 세탁 중...</p>
+                <p>출시 예정작을 불러오는 중...조금만 기다려주세요☺️</p>
             </div>
         );
     }
@@ -50,7 +50,6 @@ const UpcomingPage = ({ user }) => {
 
     return (
         <div className="upcoming-container">
-            <h1 className="upcoming-title">출시 예정 신작</h1>
 
             <div className="ranking-filters" style={{ marginBottom: '30px' }}>
                 <button 

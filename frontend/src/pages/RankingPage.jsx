@@ -46,7 +46,6 @@ const RankingPage = ({ user }) => {
 
     return (
         <div className="ranking-container">
-            <h1 className="ranking-title">명예의 전당</h1>
 
             <div className="ranking-filters">
                 <button 

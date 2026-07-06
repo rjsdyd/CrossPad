@@ -107,3 +107,74 @@
 }
 
 .btn-ban:hover { background-color: #cc111e; }
+
+/* =========================================
+  📱 모바일 반응형 (화면 폭 768px 이하)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  
+  /* 🌟 1. 화면 전체가 가로로 늘어나는 것 완벽 차단 */
+  .admin-container {
+    padding: 20px 16px;
+    width: 100%;
+    max-width: 100vw; 
+    box-sizing: border-box;
+    overflow-x: hidden; /* 삐져나가는 요소들 숨김 처리 */
+  }
+
+  /* 2. 타이틀 & 서브타이틀 */
+  .admin-title {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 8px !important;
+  }
+  .admin-title svg {
+      width: 24px;
+      height: 24px;
+  }
+  .admin-subtitle {
+    font-size: 14px;
+  }
+
+  /* 3. 메뉴 탭 버튼들 꽉 차게 */
+  .admin-header + div {
+      margin: 16px 0 24px !important;
+      flex-direction: column;
+      gap: 10px !important;
+      width: 100%; /* 부모 너비에 딱 맞춤 */
+  }
+  .admin-header + div button {
+      width: 100%;
+      padding: 12px !important;
+  }
+
+  /* 🌟 4. 표 영역만 스와이프(가로 스크롤) 되도록 독립시킴 */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto !important; 
+    -webkit-overflow-scrolling: touch; /* 모바일에서 스크롤 부드럽게 */
+    display: block; /* 레이아웃 꼬임 방지 */
+  }
+
+  /* 5. 표 내부 설정 */
+  .admin-table {
+    min-width: 600px !important; /* 표 최소 너비 강제 적용 */
+  }
+  .admin-table th, .admin-table td {
+    padding: 12px 10px;
+    white-space: nowrap; /* 글씨가 찌그러지며 줄바꿈 되는 것 방지 */
+  }
+  .admin-table th { font-size: 13px; }
+  .admin-table td { font-size: 14px; }
+
+  /* 6. 관리 버튼 (승급/탈퇴) */
+  .action-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    width: auto !important; /* JSX에 박혀있는 고정 너비 해제 */
+  }
+  .admin-actions {
+      flex-direction: row; /* 버튼은 가로로 나란히 */
+      gap: 6px;
+  }
+}

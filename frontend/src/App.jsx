@@ -81,7 +81,7 @@ function App() {
           <Route path="*" element={renderContent()} />
         </Routes>
       </main>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
     </div>
   );
 }

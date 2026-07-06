@@ -158,3 +158,49 @@
   border-radius: 12px;
   margin-top: 20px;
 }
+
+/* =========================================
+   📱 모바일 반응형 (화면 폭 768px 이하)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  /* 1. 컨테이너 여백 축소 */
+  .bookmark-page {
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+
+  /* 2. 리스트 아이템의 고정 너비 해제 및 모바일용 레이아웃 조정 */
+  .bookmark-list-item {
+    width: 100% !important;  /* 모바일 화면 너비에 꽉 차게 설정 */
+    padding: 12px;           /* 안쪽 여백 축소 */
+  }
+
+  /* 3. 리스트 포스터(이미지) 크기 축소 */
+  .list-poster {
+    width: 60px;             /* 80px -> 60px */
+    height: 85px;            /* 110px -> 85px */
+    margin-right: 16px;      /* 이미지 오른쪽 여백 축소 */
+  }
+
+  /* 4. 제목 글꼴 크기 축소 */
+  .list-title {
+    font-size: 16px;         /* 20px -> 16px */
+  }
+
+  /* 5. 플랫폼 뱃지 및 평점 글씨 크기 축소 */
+  .list-meta {
+    font-size: 12px;         /* 14px -> 12px */
+    gap: 8px;                /* 간격 축소 */
+  }
+  
+  .list-platform {
+      font-size: 10px;       /* 플랫폼 뱃지 텍스트 축소 */
+      padding: 3px 6px;
+  }
+
+  /* 6. 필터 버튼 텍스트 크기 및 패딩 축소 */
+  .filter-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+  }
+}

@@ -108,3 +108,44 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
+
+@media screen and (max-width: 768px) {
+  
+  /* 1. 컨테이너 여백 줄이기 (모바일은 화면이 좁으니까 꽉 차게) */
+  .detail-container {
+    padding: 20px 16px;
+  }
+
+  /* 2. 가로 배치(PC) -> 세로 배치(모바일)로 변경 */
+  .detail-content {
+    flex-direction: column; /* 나란히 있던 걸 위아래로! */
+    align-items: center;    /* 가운데 정렬 */
+    padding: 24px 16px;     /* 모바일용 안쪽 여백 축소 */
+    gap: 24px;
+  }
+
+  /* 3. 포스터 이미지 크기 모바일에 맞게 조절 */
+  .detail-cover {
+    width: 220px;       /* 300px -> 220px로 축소 */
+    height: 310px;
+    margin: 0 auto;     /* 가운데 정렬 */
+  }
+
+  /* 4. 게임 제목 크기 줄이고 가운데 정렬 */
+  .detail-title {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  /* 5. 플랫폼/평점/하트(북마크) 버튼 가운데 정렬 */
+  .detail-meta {
+    justify-content: center;
+    flex-wrap: wrap; /* 내용이 길면 줄바꿈 허용 */
+  }
+
+  /* 6. 스크린샷 팝업(갤러리) 화살표 크기 조절 및 위치 수정 */
+  /* (참고: 인라인 스타일로 덮어쓰기 위해 div.media-section 하위를 타겟팅) */
+  .media-section img {
+    height: auto !important; /* 스크린샷 썸네일 비율 유지 */
+  }
+}

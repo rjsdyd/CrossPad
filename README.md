@@ -46,6 +46,11 @@
 <img width="1904" height="909" alt="닌텐도" src="https://github.com/user-attachments/assets/32c82ede-c51e-4b8a-855d-e78971badf01" />
 <img width="1902" height="908" alt="플레이스테이션" src="https://github.com/user-attachments/assets/949f86f5-f175-4c04-9d89-b0e0d664c0c7" />
 
+## 상세 페이지
+<img width="268" height="704" alt="상세페이지" src="https://github.com/user-attachments/assets/f408e87a-4da1-4a63-af6d-5d5682932355" />
+<img width="1902" height="909" alt="상세페이지_이미지" src="https://github.com/user-attachments/assets/d0e142c7-0011-4a02-b706-bae613c86811" />
+<img width="1903" height="907" alt="신고" src="https://github.com/user-attachments/assets/b4b310a0-26b3-45b3-849c-603ba5d5e16c" />
+
 ## 명예의 전당（순위페이지）
 <img width="1903" height="910" alt="순위" src="https://github.com/user-attachments/assets/2dd11d8c-e196-4d96-9563-44095a27fe66" />
 
@@ -58,3 +63,46 @@
 ## 마이 페이지 (로그인, 회원가입)
 <img width="1903" height="909" alt="로그인" src="https://github.com/user-attachments/assets/5777c9b0-93f3-4d06-973b-4c17621a0954" />
 <img width="449" height="547" alt="회원가입" src="https://github.com/user-attachments/assets/f2bef9b2-1a57-4226-9b23-0c7af2fe3eb2" />
+
+## 마이 페이지 (유저)
+<img width="616" height="531" alt="로그인 정보" src="https://github.com/user-attachments/assets/708ef05c-4502-4154-91bc-42cbfa2f2dee" />
+<img width="1902" height="912" alt="찜목록" src="https://github.com/user-attachments/assets/4378852b-ec7f-410f-a668-486f51bd5320" />
+
+## 마이 페이지 (관리자)
+<img width="611" height="523" alt="관리자 정보" src="https://github.com/user-attachments/assets/f8a35cce-0b77-4e6c-b83b-f8169b39a958" />
+<img width="1905" height="908" alt="관리자 대시보드" src="https://github.com/user-attachments/assets/5a48e23c-13ed-443e-9315-a62d3bf4586b" />
+<img width="1902" height="908" alt="신고목록" src="https://github.com/user-attachments/assets/b1e90aaf-0803-4ede-9840-0812e8f32804" />
+
+## 이용약관 및 개인정보처리방침
+<img width="1904" height="909" alt="이용약관" src="https://github.com/user-attachments/assets/d0557c89-0c66-42f1-bbaa-2b14ff2d3b2f" />
+<img width="1903" height="906" alt="개인정보처리방침" src="https://github.com/user-attachments/assets/3395ba6f-0b2e-478d-b97d-d615c88bfc9e" />
+
+## 모바일_메인
+<img width="373" height="751" alt="모바일_메인" src="https://github.com/user-attachments/assets/749a8563-01eb-4ddb-8c32-6049e63d2cbb" />
+
+## 모바일_상세
+<img width="375" height="750" alt="모바일_상세" src="https://github.com/user-attachments/assets/95554dfd-9def-46ac-bf16-e334c384f72e" />
+<img width="373" height="752" alt="모바일_유저리뷰" src="https://github.com/user-attachments/assets/65effada-bb23-4dbc-9d2e-7d45d3b93924" />
+<img width="373" height="752" alt="모바일_리뷰목록" src="https://github.com/user-attachments/assets/42e48315-1ce1-4e90-bb29-b05f621245fd" />
+<img width="372" height="751" alt="모바일_미디어" src="https://github.com/user-attachments/assets/dec8dd64-cc5a-4729-b271-f7bdb7111e2e" />
+
+## 모바일_검색
+<img width="377" height="752" alt="모바일 검색" src="https://github.com/user-attachments/assets/513e4b4a-ad5a-416c-844c-aca8a5a9d756" />
+
+## 모바일_회원가입
+<img width="378" height="748" alt="모바일_회원가입" src="https://github.com/user-attachments/assets/637dd134-3944-44d6-b700-736c1c7e5075" />
+
+## 모바일_마이페이지 (유저)
+<img width="375" height="750" alt="모바일_내 찜 목록" src="https://github.com/user-attachments/assets/10572d69-7847-4cc6-8f5f-73379ddb9fe9" />
+
+## 모바일_마이페이지 (관리자)
+<img width="375" height="751" alt="모바일_관리자 대시보드" src="https://github.com/user-attachments/assets/210f3b2a-462e-4bc2-9290-81f4dd62224a" />
+<img width="374" height="752" alt="모바일_신고목록" src="https://github.com/user-attachments/assets/6ca0eceb-d333-40a3-abcc-5a7b7a0e5293" />
+
+
+
+
+
+
+
+

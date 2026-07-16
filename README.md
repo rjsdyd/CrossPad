@@ -139,6 +139,10 @@
   <img width="374" height="752" alt="모바일_신고목록" src="https://github.com/user-attachments/assets/6ca0eceb-d333-40a3-abcc-5a7b7a0e5293" />
 </div>
 
+## DB
+### ERD
+<img width="822" height="1090" alt="ERD" src="https://github.com/user-attachments/assets/303956e7-6536-4b91-baf6-ff80b2a8a4e0" />
+
 ## 개선점
 1. 모바일 환경의 다양성
 2. 배포 환경 구축 및 배포

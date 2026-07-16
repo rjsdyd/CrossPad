@@ -44,4 +44,17 @@
 
 ## 메인 페이지
 <img width="1904" height="909" alt="닌텐도" src="https://github.com/user-attachments/assets/32c82ede-c51e-4b8a-855d-e78971badf01" />
+<img width="1902" height="908" alt="플레이스테이션" src="https://github.com/user-attachments/assets/949f86f5-f175-4c04-9d89-b0e0d664c0c7" />
 
+## 명예의 전당（순위페이지）
+<img width="1903" height="910" alt="순위" src="https://github.com/user-attachments/assets/2dd11d8c-e196-4d96-9563-44095a27fe66" />
+
+## 출시 예정작
+<img width="1903" height="910" alt="출시예정작" src="https://github.com/user-attachments/assets/70849c15-7ad7-4762-acb9-fe25eeebbbdd" />
+
+## 검색 페이지
+<img width="1902" height="908" alt="검색" src="https://github.com/user-attachments/assets/ab79b019-8ecf-4969-b649-703d3cc764c4" />
+
+## 마이 페이지 (로그인, 회원가입)
+<img width="1903" height="909" alt="로그인" src="https://github.com/user-attachments/assets/5777c9b0-93f3-4d06-973b-4c17621a0954" />
+<img width="449" height="547" alt="회원가입" src="https://github.com/user-attachments/assets/f2bef9b2-1a57-4226-9b23-0c7af2fe3eb2" />

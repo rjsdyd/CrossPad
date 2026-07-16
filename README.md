@@ -138,3 +138,7 @@
   <img width="375" height="751" alt="모바일_관리자 대시보드" src="https://github.com/user-attachments/assets/210f3b2a-462e-4bc2-9290-81f4dd62224a" />
   <img width="374" height="752" alt="모바일_신고목록" src="https://github.com/user-attachments/assets/6ca0eceb-d333-40a3-abcc-5a7b7a0e5293" />
 </div>
+
+## 개선점
+1. 모바일 환경의 다양성
+2. 배포 환경 구축 및 배포

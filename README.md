@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🎮 CrossPad
 
 > 게이머를 위한 게임 상세 정보 확인 및 리뷰 커뮤니티 플랫폼
@@ -103,5 +101,3 @@
 <img width="375" height="750" alt="모바일_내 찜 목록" src="https://github.com/user-attachments/assets/10572d69-7847-4cc6-8f5f-73379ddb9fe9" />
 <img width="375" height="751" alt="모바일_관리자 대시보드" src="https://github.com/user-attachments/assets/210f3b2a-462e-4bc2-9290-81f4dd62224a" />
 <img width="374" height="752" alt="모바일_신고목록" src="https://github.com/user-attachments/assets/6ca0eceb-d333-40a3-abcc-5a7b7a0e5293" />
-
-</div>

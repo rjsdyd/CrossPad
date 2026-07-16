@@ -49,7 +49,7 @@
     * 프론트엔드 내에서 존재하지 않는 필드값(장르, 닉네임 등)에 대한 강력한 `Optional` 방어 코드 적용으로 렌더링 에러 차단.
 
 ---
-
+<div align="center">
 ## 📸 메인 페이지
 <img width="1904" height="909" alt="닌텐도" src="https://github.com/user-attachments/assets/32c82ede-c51e-4b8a-855d-e78971badf01" />
 <img width="1902" height="908" alt="플레이스테이션" src="https://github.com/user-attachments/assets/949f86f5-f175-4c04-9d89-b0e0d664c0c7" />
@@ -101,3 +101,4 @@
 <img width="375" height="750" alt="모바일_내 찜 목록" src="https://github.com/user-attachments/assets/10572d69-7847-4cc6-8f5f-73379ddb9fe9" />
 <img width="375" height="751" alt="모바일_관리자 대시보드" src="https://github.com/user-attachments/assets/210f3b2a-462e-4bc2-9290-81f4dd62224a" />
 <img width="374" height="752" alt="모바일_신고목록" src="https://github.com/user-attachments/assets/6ca0eceb-d333-40a3-abcc-5a7b7a0e5293" />
+</div>
